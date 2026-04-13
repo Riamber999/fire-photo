@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QR Code</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  body{font-family:'Noto Sans TC','Microsoft JhengHei',sans-serif;background:#f8f7f4;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;}
+  .card{background:#fff;border-radius:16px;padding:32px 36px;box-shadow:0 4px 24px rgba(0,0,0,0.10);text-align:center;max-width:340px;width:100%;}
+  .icon{font-size:36px;margin-bottom:8px;}
+  h2{font-size:18px;font-weight:800;color:#1a1a1a;margin:0 0 4px;}
+  .sub{font-size:12px;color:#888;margin-bottom:24px;}
+  #qrcode{display:flex;justify-content:center;margin-bottom:20px;}
+  #qrcode canvas,#qrcode img{border-radius:8px;}
+  .url{font-size:11px;color:#1a4a7c;word-break:break-all;background:#f0f4fa;padding:8px 12px;border-radius:8px;margin-bottom:20px;font-family:'Courier New',monospace;}
+  .hint{font-size:12px;color:#666;line-height:1.8;}
+  .hint strong{color:#c0392b;}
+  .divider{border:none;border-top:1px solid #eee;margin:20px 0;}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="icon">🚒</div>
+  <h2>消防照片助手</h2>
+  <p class="sub">台北市・新北市 竣工查驗</p>
+  <div id="qrcode"></div>
+  <div class="url">https://Riamber999.github.io/fire-photo</div>
+  <hr class="divider">
+  <div class="hint">
+    📱 <strong>手機</strong>：掃描 QR Code 開啟<br>
+    💻 <strong>電腦</strong>：點選網址直接進入<br>
+    🔒 需輸入密碼才可使用
+  </div>
+</div>
+<script>
+  new QRCode(document.getElementById("qrcode"), {
+    text: "https://Riamber999.github.io/fire-photo",
+    width: 200,
+    height: 200,
+    colorDark: "#1a1a1a",
+    colorLight: "#ffffff",
+    correctLevel: QRCode.CorrectLevel.H
+  });
+</script>
+</body>
+</html>
