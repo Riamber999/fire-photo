@@ -1,4 +1,4 @@
-html
+
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -461,7 +461,11 @@ function saveHistory(d){
 function applyHistory(idx){
   if(idx==="")return;
   const h=S.projectHistory?.[Number(idx)];if(!h)return;
-  Object.assign(S,h);render();
+  // 保留目前選定的縣市，不用歷史覆蓋
+  const currentCity=S.city;
+  Object.assign(S,h);
+  S.city=currentCity;
+  render();
 }
 function psKey(){return"fire-ps-"+S.projectName+"_"+S.inspDate;}
 function loadPS(){try{const r=localStorage.getItem(psKey());S.photoStatus=r?JSON.parse(r):{};}catch(e){S.photoStatus={};}}
@@ -501,11 +505,12 @@ function render(){
 // ── Lock ─────────────────────────────────
 function renderLock(el){
   el.innerHTML=`<div class="lock-sc">
-    <img src="logo.png" alt="消防序拍" style="width:200px;max-width:80vw;margin-bottom:8px;border-radius:12px">
+    <img src="logo.png" alt="消防序拍"
+      style="width:200px;max-width:80vw;margin-bottom:8px;border-radius:12px"
+      onerror="this.style.display='none';document.getElementById('logoFallback').style.display='block'">
+    <div id="logoFallback" style="display:none;font-size:64px;margin-bottom:8px">📷</div>
     <div style="font-size:22px;font-weight:800;margin-bottom:2px">消防序拍</div>
     <div style="font-size:12px;color:#c0392b;font-weight:700;letter-spacing:2px;margin-bottom:4px">V 1.0</div>
-    <div style="font-size:13px;color:#888;margin-bottom:24px">台北市・新北市 竣工查驗</div>
-    <div style="font-size:22px;font-weight:800;margin-bottom:4px">消防序拍</div>
     <div style="font-size:13px;color:#888;margin-bottom:24px">台北市・新北市 竣工查驗</div>
     <input type="password" id="pwIn" placeholder="請輸入密碼"
       style="width:220px;text-align:center;font-size:16px;padding:10px;letter-spacing:3px;margin-bottom:12px;border:1px solid #ddd;border-radius:8px">
