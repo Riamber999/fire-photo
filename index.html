@@ -5,7 +5,8 @@ html
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>消防照片助手</title>
+<meta name="apple-mobile-web-app-title" content="消防序拍">
+<title>消防序拍 V1.0</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <style>
 :root{--red:#c0392b;--green:#1a472a;--nb:#1a4a7c;--dark:#2c3e50;--bg:#f8f7f4;--card:#fff;--border:#e8e4dc;--gold:#d4a017;}
@@ -21,15 +22,15 @@ h1{font-size:19px;font-weight:800;color:#1a1a1a;margin:2px 0;}
 .card{background:var(--card);border-radius:10px;padding:13px;margin-bottom:8px;border:1px solid var(--border);}
 .fl{font-size:11px;color:#888;margin-bottom:3px;font-weight:600;}
 input[type=text],input[type=password],select{width:100%;padding:8px 10px;border:1px solid #ddd;border-radius:6px;font-size:13px;margin-bottom:8px;background:#fff;color:#333;}
-input.dw{border-color:var(--gold);background:#fffef5;font-weight:700;color:#7d5a00;font-family:'Courier New',monospace;font-size:15px;letter-spacing:1px;}
+input.dw{border-color:var(--gold);background:#fffef5;font-weight:700;color:#7d5a00;font-family:'Courier New',monospace;font-size:15px;}
 .mbtn{width:100%;padding:13px;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;margin-top:4px;}
-.btn-tp{background:var(--red);} .btn-nb{background:var(--nb);} .btn-g{background:var(--green);} .btn-d{background:var(--dark);}
+.btn-tp{background:var(--red);}.btn-nb{background:var(--nb);}.btn-g{background:var(--green);}.btn-d{background:var(--dark);}
 .sb{padding:5px 11px;border-radius:6px;font-size:11px;font-weight:700;border:none;cursor:pointer;color:#fff;white-space:nowrap;}
 .nb-btn{flex:1;padding:9px 6px;background:#f5f5f0;color:#333;border:1px solid #ddd;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;text-align:center;}
 .nav-row{display:flex;gap:7px;margin-top:8px;}
 .prog-bar{background:#e0e0d8;border-radius:8px;height:8px;margin-bottom:10px;overflow:hidden;}
 .prog-fill{height:100%;border-radius:8px;transition:width .3s;}
-.fill-tp{background:var(--red);} .fill-nb{background:var(--nb);}
+.fill-tp{background:var(--red);}.fill-nb{background:var(--nb);}
 .sec-cat-label{font-size:12px;font-weight:800;color:var(--dark);margin:14px 0 6px 2px;display:flex;align-items:center;gap:6px;}
 .sec-cat-label::after{content:"";flex:1;height:1px;background:#ddd;}
 .sec-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
@@ -40,17 +41,20 @@ input.dw{border-color:var(--gold);background:#fffef5;font-weight:700;color:#7d5a
 .ibtn.s-tp{background:var(--green);color:#fff;border:2px solid var(--green);font-weight:700;}
 .ibtn.s-nb{background:var(--nb);color:#fff;border:2px solid var(--nb);font-weight:700;}
 .sbadge{font-size:9px;font-weight:700;padding:1px 3px;border-radius:3px;margin-left:3px;}
-.s★{color:var(--red);background:#fdf2f2;} .s◎{color:#888;background:#f0f0ec;}
+.s★{color:var(--red);background:#fdf2f2;}.s◎{color:#888;background:#f0f0ec;}
+.stag{font-size:9px;padding:1px 4px;border-radius:3px;margin-left:3px;font-weight:700;}
+.stag-cur{background:#27ae60;color:#fff;}
+.stag-prev{background:#b0c8e8;color:#1a4a7c;}
 .wb{background:#fffef5;border:2px solid var(--gold);position:relative;}
 .wb-tag{position:absolute;top:-10px;left:14px;background:var(--gold);color:#fff;font-size:11px;font-weight:700;padding:2px 10px;border-radius:4px;}
 .wb-t{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px;}
 .wb-t td{padding:4px 6px;border-bottom:1px solid #eee;}
-.wbl{font-size:11px;color:#666;white-space:nowrap;} .wbv{font-weight:600;}
+.wbl{font-size:11px;color:#666;white-space:nowrap;}.wbv{font-weight:600;}
 .wbr{font-weight:800!important;color:var(--red)!important;}
 .wbd{font-weight:800!important;color:#7d5a00!important;font-family:'Courier New',monospace;font-size:14px;background:#fffbf0;padding:2px 6px;border-radius:4px;border:1px solid var(--gold);}
-.ci{text-align:center;border-radius:10px;padding:13px;margin-bottom:8px;}
-.ci.tp{background:var(--green);color:#fff;} .ci.nb{background:var(--nb);color:#fff;}
-.ci .cc{font-size:10px;opacity:.7;} .ci .cn{font-size:15px;font-weight:800;line-height:1.4;margin:4px 0;} .ci .cf{font-size:10px;opacity:.5;word-break:break-all;}
+.ci{text-align:center;border-radius:10px;padding:12px;margin-bottom:8px;}
+.ci.tp{background:var(--green);color:#fff;}.ci.nb{background:var(--nb);color:#fff;}
+.ci .cc{font-size:10px;opacity:.7;}.ci .cn{font-size:15px;font-weight:800;line-height:1.4;margin:3px 0;}.ci .cf{font-size:10px;opacity:.5;word-break:break-all;}
 .rem{background:#fffbf0;border:2px solid #f39c12;border-radius:10px;padding:11px 14px;margin-bottom:10px;}
 .rem-t{font-size:12px;font-weight:800;color:#e67e22;margin-bottom:8px;}
 .rem-r{display:flex;align-items:flex-start;gap:8px;margin-bottom:5px;}
@@ -58,27 +62,30 @@ input.dw{border-color:var(--gold);background:#fffef5;font-weight:700;color:#7d5a
 .rem-tx{font-size:12px;font-weight:600;color:#7d4800;line-height:1.5;}
 .wm-i{background:#f0f4fa;border:1px solid #b0c8e8;border-radius:8px;padding:8px 12px;font-size:11px;color:#1a4a7c;display:flex;align-items:center;gap:8px;margin-bottom:10px;}
 .cam-pair{display:flex;gap:10px;}
-.cam-box{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:110px;border-radius:8px;cursor:pointer;}
+.cam-box{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100px;border-radius:8px;cursor:pointer;}
 .cam-box.red{border:2.5px dashed var(--red);background:#fdf8f8;}
 .cam-box.blue{border:2.5px dashed var(--nb);background:#f0f4fa;}
-.cam-icon{font-size:30px;margin-bottom:3px;}
+.cam-icon{font-size:28px;margin-bottom:3px;}
 .cam-lbl{font-size:12px;font-weight:700;}
-.cam-sub{font-size:10px;margin-top:2px;color:#ccc;}
-.cam-box.red .cam-lbl{color:var(--red);} .cam-box.blue .cam-lbl{color:var(--nb);}
-.prev img{width:100%;border-radius:8px;max-height:240px;object-fit:contain;background:#f0f0ec;}
-.proc{display:flex;align-items:center;justify-content:center;min-height:100px;background:#f0f4fa;border-radius:10px;border:1px solid #b0c8e8;font-size:13px;font-weight:600;color:var(--nb);}
+.cam-sub{font-size:10px;margin-top:2px;color:#aaa;}
+.cam-box.red .cam-lbl{color:var(--red);}.cam-box.blue .cam-lbl{color:var(--nb);}
+.photo-strip{display:flex;gap:6px;overflow-x:auto;padding:4px 0;}
+.photo-thumb{flex-shrink:0;position:relative;text-align:center;}
+.photo-thumb img{width:68px;height:68px;object-fit:cover;border-radius:6px;cursor:pointer;border:2px solid #e0e0d8;}
+.thumb-del{position:absolute;top:-5px;right:-5px;width:18px;height:18px;background:#e74c3c;border:none;border-radius:9px;color:#fff;font-size:11px;cursor:pointer;line-height:18px;text-align:center;padding:0;}
+.thumb-no{font-size:9px;color:#888;margin-top:2px;}
+.proc{display:flex;align-items:center;justify-content:center;min-height:80px;background:#f0f4fa;border-radius:10px;border:1px solid #b0c8e8;font-size:13px;font-weight:600;color:var(--nb);}
 .rv-item{display:flex;gap:8px;align-items:center;padding:8px;}
 .dot{width:22px;height:22px;border-radius:11px;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;}
-.dot-ok{background:#27ae60;} .dot-miss{background:#e74c3c;}
+.dot-ok{background:#27ae60;}.dot-miss{background:#e74c3c;}
 .rv-th{width:40px;height:40px;object-fit:cover;border-radius:6px;flex-shrink:0;cursor:pointer;}
 .warn{background:#fdf2f2;border:1px solid #e74c3c;}
 .warn-t{font-size:13px;font-weight:700;color:var(--red);margin-bottom:6px;}
 .warn-i{font-size:11px;color:#922;margin-left:8px;margin-bottom:2px;}
-.lock-sc{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px 20px;text-align:center;}
-.lock-i{font-size:48px;margin-bottom:16px;}
+.lock-sc{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px 20px 60px;text-align:center;}
 .city-sc{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:80vh;gap:16px;padding:20px;}
 .city-btn{width:270px;padding:22px;border:none;border-radius:14px;font-size:17px;font-weight:800;color:#fff;cursor:pointer;letter-spacing:2px;}
-.city-btn.tp{background:var(--red);} .city-btn.nb{background:var(--nb);}
+.city-btn.tp{background:var(--red);}.city-btn.nb{background:var(--nb);}
 .city-lbl{font-size:11px;opacity:.7;font-weight:400;letter-spacing:0;display:block;margin-top:4px;}
 .hist-wrap{background:#f5fbf5;border:1.5px solid #a8d5a8;border-radius:9px;padding:10px 12px;margin-bottom:10px;}
 .hist-lbl{font-size:11px;font-weight:800;color:#1a472a;margin-bottom:6px;}
@@ -92,36 +99,40 @@ input.dw{border-color:var(--gold);background:#fffef5;font-weight:700;color:#7d5a
 .dl-info{background:#f0f8f0;border:1.5px solid #a8d5a8;border-radius:8px;padding:10px 14px;margin-bottom:8px;font-size:11px;color:#1a472a;}
 .bstack{display:flex;flex-direction:column;gap:8px;margin-top:8px;}
 .user-chip{display:inline-block;background:#e8f0f8;color:var(--nb);font-size:11px;font-weight:700;padding:2px 10px;border-radius:12px;margin-bottom:4px;}
+.footer{position:fixed;bottom:0;left:0;right:0;padding:8px 16px;background:rgba(248,247,244,0.96);border-top:1px solid #e8e4dc;text-align:center;font-size:10px;color:#bbb;letter-spacing:.3px;z-index:100;}
+.share-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.93);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;}
+.share-modal img{max-width:100%;max-height:52vh;border-radius:10px;object-fit:contain;box-shadow:0 4px 24px rgba(0,0,0,.5);margin-bottom:10px;}
+.share-btns{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:8px;}
 </style>
 </head>
 <body>
 <div id="app" class="wrap"></div>
+<div class="footer">© 2026 FireLinkX 勤安居顧問有限公司 All rights reserved.</div>
+
 <script>
-// ══════════════════════════════════════════
+// ════════════════════════════════════════
 // 🔑 使用者密碼設定
-// 格式：{ "密碼": "使用者姓名" }，可新增任意筆
-// ══════════════════════════════════════════
-const USERS = {
-  "fire-admin":  "管理員",
-  "wu-2026":     "吳○○ 消防設備師",
-  "qin-2026":    "秦○○ 消防設備士",
-  "chen-2026":   "陳○○ 消防設備士",
+// 格式：{ "密碼": "使用者姓名" }
+// ════════════════════════════════════════
+const USERS={
+  "fire-admin": "管理員",
+  "wu-2026":    "吳○○ 消防設備師",
+  "qin-2026":   "秦○○ 消防設備士",
+  "chen-2026":  "陳○○ 消防設備士",
 };
 
-// ══════════════════════════════════════════
+// ════════════════════════════════════════
 // 台北市清單
-// ══════════════════════════════════════════
+// ════════════════════════════════════════
 const TP_CHECKLIST=[
   {category:"共有設備",items:[
     {id:"TP-GEN-01",name:"發電機組全景（含固定基座、控制盤、充電器、蓄電池）"},
-    {id:"TP-GEN-02a",name:"ATS關（含標示）"},
-    {id:"TP-GEN-02b",name:"ATS開"},
+    {id:"TP-GEN-02",name:"ATS開關箱（開、關）"},
     {id:"TP-GEN-03",name:"補充油箱（含油品種類）"},
   ]},
   {category:"水系統滅火設備",items:[
     {id:"TP-HYD-01",name:"室內消防栓加壓送水裝置"},
-    {id:"TP-HYD-02a",name:"室內消防栓箱關"},
-    {id:"TP-HYD-02b",name:"室內消防栓箱開"},
+    {id:"TP-HYD-02",name:"室內消防栓箱（開、關）"},
     {id:"TP-HYD-03",name:"室內消防栓測試用出水口（含標示）"},
     {id:"TP-HYD-04",name:"屋頂層消防實際射水"},
     {id:"TP-HYD-05",name:"屋頂層消防實際射水壓力"},
@@ -133,11 +144,9 @@ const TP_CHECKLIST=[
     {id:"TP-SPR-06",name:"蜂鳴器"},
   ]},
   {category:"警報設備",items:[
-    {id:"TP-FA-01a",name:"火警受信總機整組關"},
-    {id:"TP-FA-01b",name:"火警受信總機整組開（含蓄電池、話筒）"},
+    {id:"TP-FA-01",name:"火警受信總機整組（開、關）"},
     {id:"TP-FA-02",name:"各型式探測器及配線"},
-    {id:"TP-MA-01a",name:"火警綜合盤關（含標示燈、警鈴、話筒）"},
-    {id:"TP-MA-01b",name:"火警綜合盤開（含配線）"},
+    {id:"TP-MA-01",name:"火警綜合盤（開、關）"},
     {id:"TP-PA-01",name:"廣播主機整組（含送話器及蓄電池）"},
     {id:"TP-PA-02",name:"各型式揚聲器"},
   ]},
@@ -149,24 +158,21 @@ const TP_CHECKLIST=[
   {category:"消防搶救上之必要設備",items:[
     {id:"TP-SS-01",name:"連結送水管送水口（含標示）"},
     {id:"TP-RES-01",name:"消防專用蓄水池加壓送水裝置"},
-    {id:"TP-RES-02a",name:"採水口開（含標示）"},
-    {id:"TP-RES-02b",name:"採水口關（含標示）"},
+    {id:"TP-RES-02",name:"採水口（開、關）（含標示）"},
     {id:"TP-SMK-01",name:"排煙機組"},
-    {id:"TP-SMK-02a",name:"排煙機組控制盤關"},
-    {id:"TP-SMK-02b",name:"排煙機組控制盤開"},
+    {id:"TP-SMK-02",name:"排煙機組控制盤（開、關）"},
     {id:"TP-SMK-03",name:"排煙風管配置情形"},
     {id:"TP-SMK-04",name:"偵煙式探測器及配線"},
     {id:"TP-SMK-05",name:"手動啟動裝置（含標示）"},
     {id:"TP-SMK-06",name:"防煙垂壁"},
-    {id:"TP-EP-01a",name:"緊急電源插座保護箱關"},
-    {id:"TP-EP-01b",name:"緊急電源插座保護箱開"},
+    {id:"TP-EP-01",name:"緊急電源插座保護箱（開、關）"},
     {id:"TP-EXT-01",name:"各型式滅火器（含標示）"},
   ]},
 ];
 
-// ══════════════════════════════════════════
+// ════════════════════════════════════════
 // 新北市清單
-// ══════════════════════════════════════════
+// ════════════════════════════════════════
 const NB_CHECKLIST=[
   {catId:"一",category:"共有設備",subs:[
     {sub:"發電機",items:[
@@ -192,7 +198,7 @@ const NB_CHECKLIST=[
       {id:"NB-HYD-01",name:"消防泵浦性能測試（含流量計近照）"},
       {id:"NB-HYD-02",name:"室內(外)消防栓箱（開、關）"},
       {id:"NB-HYD-03",name:"室外消防水帶箱（開、關）"},
-      {id:"NB-HYD-04",name:"送水口逆止閥（近照）及送水立管（與連結送水管共用時）",star:true},
+      {id:"NB-HYD-04",name:"送水口逆止閥及送水立管（與連結送水管共用時）",star:true},
       {id:"NB-HYD-05",name:"立管連通管（管底或屋頂）（雙立管時）",star:true},
       {id:"NB-HYD-06",name:"連結屋頂水箱配管",star:true},
       {id:"NB-HYD-07",name:"消防幹管加壓試驗（含測試壓力表近照）",star:true},
@@ -277,8 +283,8 @@ const NB_CHECKLIST=[
   {catId:"五",category:"標示避難逃生設備",subs:[
     {sub:"出口標示燈",items:[
       {id:"NB-EXIT-01",name:"出口標示燈直線距離最遠處（圖形及顏色）"},
-      {id:"NB-EXIT-02",name:"出口標示燈（閃滅或音聲引導功能）連動功能測試"},
-      {id:"NB-EXIT-03",name:"出口標示燈（閃滅或音聲引導功能）遮斷功能測試"},
+      {id:"NB-EXIT-02",name:"出口標示燈連動功能測試"},
+      {id:"NB-EXIT-03",name:"出口標示燈遮斷功能測試"},
       {id:"NB-EXIT-04",name:"出口標示燈電源回路預埋配管（接線盒）",star:true,circle:true},
     ]},
     {sub:"避難方向指示燈",items:[
@@ -323,7 +329,7 @@ const NB_CHECKLIST=[
     ]},
     {sub:"室內排煙（機械排煙）",items:[
       {id:"NB-SMK-01",name:"排煙機組"},
-      {id:"NB-SMK-02",name:"排煙機控制盤（含開、關）"},
+      {id:"NB-SMK-02",name:"排煙機控制盤（開、關）"},
       {id:"NB-SMK-03",name:"排煙機控制盤控制開關動作測試"},
       {id:"NB-SMK-04",name:"各區防煙垂壁"},
       {id:"NB-SMK-05",name:"各區排煙風管配置情形"},
@@ -342,7 +348,7 @@ const NB_CHECKLIST=[
     ]},
     {sub:"梯間排煙（機械排煙）",items:[
       {id:"NB-STR-01",name:"排煙機組"},
-      {id:"NB-STR-02",name:"排煙機控制盤（含開、關）"},
+      {id:"NB-STR-02",name:"排煙機控制盤（開、關）"},
       {id:"NB-STR-03",name:"排煙機控制盤控制開關動作測試"},
       {id:"NB-STR-04",name:"偵煙式探測器、配線及動作測試"},
       {id:"NB-STR-05",name:"手動啟動裝置及配線"},
@@ -403,77 +409,80 @@ const NB_CHECKLIST=[
   ]},
 ];
 
+// ════════════════════════════════════════
+// （開、關）自動拆分
+// ════════════════════════════════════════
+function expandOC(items,prefix){
+  const out=[];
+  for(const i of items){
+    if(/（開[、,，]?關）/.test(i.name)){
+      out.push({...i,...prefix,id:i.id+"-C",name:i.name.replace(/（開[、,，]?關）/,"（關）")});
+      out.push({...i,...prefix,id:i.id+"-O",name:i.name.replace(/（開[、,，]?關）/,"（開）")});
+    }else{out.push({...i,...prefix});}
+  }
+  return out;
+}
 const NB_SECS=NB_CHECKLIST.flatMap(c=>c.subs.map(s=>({catId:c.catId,category:c.category,sub:s.sub,items:s.items})));
-function nbAll(){return NB_SECS.flatMap(s=>s.items.map(i=>({...i,category:s.category,catId:s.catId,sub:s.sub})));}
-function tpAll(){return TP_CHECKLIST.flatMap(c=>c.items.map(i=>({...i,category:c.category})));}
+function nbAll(){return NB_SECS.flatMap(s=>expandOC(s.items,{category:s.category,catId:s.catId,sub:s.sub}));}
+function tpAll(){return TP_CHECKLIST.flatMap(c=>expandOC(c.items,{category:c.category}));}
 function safeName(n){return n.replace(/[\/\\:*?"<>|]/g,"_").trim()||"其他";}
+function getFolder(item){return S.city==="NB"?safeName(item.sub||item.category):safeName(item.category);}
 
-// ══════════════════════════════════════════
+// ════════════════════════════════════════
 // State
-// ══════════════════════════════════════════
+// ════════════════════════════════════════
 let S={
-  screen:"lock",pw:"",pwError:false,currentUser:"",
-  city:"",
-  projectName:"",projectAddress:"",inspDate:"",
+  screen:"lock",pwError:false,currentUser:"",
+  city:"",projectName:"",projectAddress:"",inspDate:"",
   supervisorName:"",testerName:"",builderName:"",caseType:"",
   selectedIds:new Set(),photos:{},locations:{},currentIdx:0,
   nbFilter:"all",processing:false,downloading:false,
-  projectHistory:undefined,
-  photoStatus:{}, // 分次拍攝進度：{itemId: {done,ts}}
+  projectHistory:undefined,photoStatus:{},
 };
-
 function normDate(v){if(!v)return"";const m=v.match(/^(\d{4})[.\-\/](\d{1,2})[.\-\/](\d{1,2})$/);return m?`${m[1]}.${m[2].padStart(2,"0")}.${m[3].padStart(2,"0")}`:v;}
+function hasPics(id){return(S.photos[id]||[]).length>0;}
+function isPrev(id){return!!(S.photoStatus[id]?.done&&!hasPics(id));}
 
-// ══════════════════════════════════════════
-// localStorage 歷史案件
-// ══════════════════════════════════════════
+// ════════════════════════════════════════
+// localStorage
+// ════════════════════════════════════════
 function tryLoadHistory(){
-  try{
-    const r=localStorage.getItem("fire-projects");
-    S.projectHistory=r?JSON.parse(r):null;
-  }catch(e){S.projectHistory=null;}
-  render();
+  try{const r=localStorage.getItem("fireseq-projects");S.projectHistory=r?JSON.parse(r):null;}
+  catch(e){S.projectHistory=null;}render();
 }
 function saveHistory(d){
   try{
     const prev=Array.isArray(S.projectHistory)?S.projectHistory:[];
-    const deduped=prev.filter(h=>!(h.projectName===d.projectName&&h.projectAddress===d.projectAddress));
-    const next=[d,...deduped].slice(0,5);
-    localStorage.setItem("fire-projects",JSON.stringify(next));
-    S.projectHistory=next;
+    const next=[d,...prev.filter(h=>!(h.projectName===d.projectName&&h.projectAddress===d.projectAddress))].slice(0,5);
+    localStorage.setItem("fireseq-projects",JSON.stringify(next));S.projectHistory=next;
   }catch(e){}
 }
-function applyHistory(idx){
-  if(idx===""||idx===null||idx===undefined)return;
-  const h=S.projectHistory?.[Number(idx)];if(!h)return;
-  Object.assign(S,h);render();
+function applyHistory(idx){if(idx==="")return;const h=S.projectHistory?.[Number(idx)];if(!h)return;Object.assign(S,h);render();}
+function psKey(){return"fireseq-ps-"+S.projectName+"_"+S.inspDate;}
+function loadPS(){try{const r=localStorage.getItem(psKey());S.photoStatus=r?JSON.parse(r):{};}catch(e){S.photoStatus={};}}
+function markDone(id){try{S.photoStatus[id]={done:true,ts:new Date().toISOString()};localStorage.setItem(psKey(),JSON.stringify(S.photoStatus));}catch(e){}}
+
+// ════════════════════════════════════════
+// 網址參數自動帶入
+// ════════════════════════════════════════
+function applyUrlParams(){
+  const p=new URLSearchParams(location.search);
+  if(!p.has("n")&&!p.has("city"))return;
+  if(p.get("city"))S.city=p.get("city");
+  if(p.get("n"))   S.projectName=p.get("n");
+  if(p.get("a"))   S.projectAddress=p.get("a");
+  if(p.get("d"))   S.inspDate=normDate(p.get("d"));
+  if(p.get("t"))   S.caseType=p.get("t");
+  if(p.get("s"))   S.supervisorName=p.get("s");
+  if(p.get("r"))   S.testerName=p.get("r");
+  if(p.get("b"))   S.builderName=p.get("b");
+  if(p.get("pw")){const u=USERS[p.get("pw")];if(u){S.currentUser=u;S.screen="project";}}
+  history.replaceState({},"",location.pathname);
 }
 
-// ══════════════════════════════════════════
-// 分次拍攝進度（localStorage）
-// ══════════════════════════════════════════
-function photoStatusKey(){
-  return"fire-ps-"+S.projectName+"_"+S.inspDate;
-}
-function loadPhotoStatus(){
-  try{
-    const r=localStorage.getItem(photoStatusKey());
-    S.photoStatus=r?JSON.parse(r):{};
-  }catch(e){S.photoStatus={};}
-}
-function markPhotoDone(id){
-  try{
-    S.photoStatus[id]={done:true,ts:new Date().toISOString()};
-    localStorage.setItem(photoStatusKey(),JSON.stringify(S.photoStatus));
-  }catch(e){}
-}
-function isDone(id){return!!(S.photoStatus[id]?.done||S.photos[id]);}
-function isThisSession(id){return!!S.photos[id];}
-function isPrevSession(id){return!!(S.photoStatus[id]?.done&&!S.photos[id]);}
-
-// ══════════════════════════════════════════
+// ════════════════════════════════════════
 // Render Router
-// ══════════════════════════════════════════
+// ════════════════════════════════════════
 function render(){
   const el=document.getElementById("app");
   if(S.screen==="lock")    return renderLock(el);
@@ -484,12 +493,14 @@ function render(){
   if(S.screen==="review")  return renderReview(el);
 }
 
-// ── Lock ──────────────────────────────────
+// ── Lock ─────────────────────────────────
 function renderLock(el){
   el.innerHTML=`<div class="lock-sc">
-    <div class="lock-i">🚒</div>
-    <div style="font-size:22px;font-weight:800;margin-bottom:4px">消防照片助手</div>
-    <div style="font-size:13px;color:#888;margin-bottom:24px">台北市・新北市 竣工查驗</div>
+    <img src="logo.png" alt="消防序拍" style="width:200px;max-width:75vw;margin-bottom:10px;border-radius:12px"
+      onerror="this.style.display='none'">
+    <div style="font-size:24px;font-weight:800;color:#1a1a1a;margin-bottom:2px">消防序拍</div>
+    <div style="font-size:12px;color:var(--red);font-weight:700;letter-spacing:2px;margin-bottom:4px">V 1.0</div>
+    <div style="font-size:12px;color:#888;margin-bottom:28px">台北市・新北市 竣工查驗</div>
     <input type="password" id="pwIn" placeholder="請輸入密碼"
       style="width:220px;text-align:center;font-size:16px;padding:10px;letter-spacing:3px;margin-bottom:12px;border:1px solid #ddd;border-radius:8px">
     <button class="mbtn btn-tp" style="width:220px" onclick="tryLogin()">登入</button>
@@ -497,28 +508,22 @@ function renderLock(el){
   </div>`;
   const i=document.getElementById("pwIn");i.focus();i.onkeydown=e=>{if(e.key==="Enter")tryLogin();};
 }
-function tryLogin(){
-  const v=document.getElementById("pwIn").value;
-  const user=USERS[v];
-  if(user){S.screen="city";S.pwError=false;S.currentUser=user;}
-  else S.pwError=true;
-  render();
-}
+function tryLogin(){const v=document.getElementById("pwIn").value,u=USERS[v];if(u){S.screen="city";S.pwError=false;S.currentUser=u;}else S.pwError=true;render();}
 
-// ── City ──────────────────────────────────
+// ── City ─────────────────────────────────
 function renderCity(el){
   el.innerHTML=`<div class="city-sc">
-    <div style="font-size:11px;font-weight:700;color:#888;margin-bottom:4px">已登入</div>
+    <div style="font-size:11px;color:#888;margin-bottom:2px">已登入</div>
     <div class="user-chip">👤 ${S.currentUser}</div>
     <div style="font-size:18px;font-weight:800;margin:16px 0 6px">選擇縣市</div>
     <button class="city-btn tp" onclick="setCity('TP')">台北市<span class="city-lbl">照片黏貼成冊 / 白板入鏡</span></button>
     <button class="city-btn nb" onclick="setCity('NB')">新北市<span class="city-lbl">上傳消防局平台 / 依審查順序表命名</span></button>
-    <button style="margin-top:8px;background:none;border:none;font-size:12px;color:#aaa;cursor:pointer" onclick="S.screen='lock';S.currentUser='';render()">登出</button>
+    <button style="margin-top:12px;background:none;border:none;font-size:12px;color:#aaa;cursor:pointer" onclick="S.screen='lock';S.currentUser='';render()">登出</button>
   </div>`;
 }
 function setCity(c){S.city=c;S.selectedIds=new Set();S.photos={};S.locations={};S.currentIdx=0;S.screen="project";render();}
 
-// ── Project ───────────────────────────────
+// ── Project ──────────────────────────────
 function renderProject(el){
   if(S.projectHistory===undefined)tryLoadHistory();
   const isNB=S.city==="NB",hist=S.projectHistory;
@@ -527,7 +532,7 @@ function renderProject(el){
     <div class="user-chip">👤 ${S.currentUser}</div>
     <div class="badge ${isNB?"badge-nb":"badge-tp"}">${isNB?"新北市":"台北市"} ▸ 案件資訊</div>
     <h1>填寫案件資訊</h1>
-    <p class="sub">檢查日期採西元紀年，同時作為標示牌日期與照片浮水印</p>
+    <p class="sub">日期採西元紀年，同時作為標示牌日期與照片浮水印</p>
   </div>
   ${hist&&hist.length?`<div class="hist-wrap">
     <div class="hist-lbl">📂 帶入歷史案件</div>
@@ -544,7 +549,7 @@ function renderProject(el){
     <input type="text" id="f_name" value="${S.projectName}" placeholder="例：國立○○大樓">
     <div class="fl">場所地址 *</div>
     <input type="text" id="f_addr" value="${S.projectAddress}" placeholder="例：新北市板橋區○○路1號B1F">
-    <div class="fl" style="color:#7d5a00;font-weight:800">📅 檢查日期（西元）* — 同時用於標示牌與浮水印</div>
+    <div class="fl" style="color:#7d5a00;font-weight:800">📅 檢查日期（西元）* — 標示牌日期與浮水印</div>
     <input type="text" id="f_date" class="dw" value="${S.inspDate}" placeholder="例：2026.03.29" maxlength="10">
     <div style="font-size:10px;color:#888;margin-top:-6px;margin-bottom:10px">格式 YYYY.MM.DD，月日不足兩位自動補零</div>
     ${isNB?`<div class="fl">案件類別</div><input type="text" id="f_ctype" value="${S.caseType}" placeholder="□使用執照 □變更使用執照 □室內裝修 □分(併)戶">`:""}
@@ -573,26 +578,29 @@ function saveProject(){
     inspDate:S.inspDate,supervisorName:S.supervisorName,testerName:S.testerName,
     builderName:S.builderName,caseType:S.caseType,
     savedAt:new Date().toLocaleDateString("zh-TW",{year:"numeric",month:"2-digit",day:"2-digit"})});
-  loadPhotoStatus(); // 載入此案件的分次拍攝進度
-  S.screen="select";render();
+  loadPS();S.screen="select";render();
 }
 
-// ── Select ────────────────────────────────
+// ── Select ───────────────────────────────
 function renderSelect(el){return S.city==="TP"?renderSelectTP(el):renderSelectNB(el);}
+function itemTag(id){
+  if(hasPics(id))return`<span class="stag stag-cur">本次✓</span>`;
+  if(isPrev(id)) return`<span class="stag stag-prev">前次📷</span>`;
+  return"";
+}
 function renderSelectTP(el){
-  let h=`<div class="header"><div class="badge badge-tp">台北市 ▸ ${S.projectName}</div><h1>選擇檢附項目</h1><p class="sub">已選 ${S.selectedIds.size} 項</p></div>`;
+  let h=`<div class="header"><div class="badge badge-tp">台北市 ▸ ${S.projectName}</div>
+    <h1>選擇檢附項目</h1><p class="sub">已選 ${S.selectedIds.size} 項</p></div>`;
   TP_CHECKLIST.forEach((cat,ci)=>{
-    h+=`<div class="card"><div class="sec-hd"><span class="sec-title" style="color:var(--green)">${cat.category}</span>
+    const exp=expandOC(cat.items,{});
+    h+=`<div class="card"><div class="sec-hd">
+      <span class="sec-title" style="color:var(--green)">${cat.category}</span>
       <div class="sec-btns">
         <button class="sb" style="background:#1a472a" onclick="setSecTP(${ci},true)">全選</button>
         <button class="sb" style="background:#c0392b" onclick="setSecTP(${ci},false)">取消</button>
       </div></div><div class="item-grid">`;
-    cat.items.forEach(i=>{
-      const s=S.selectedIds.has(i.id);
-      const prev=isPrevSession(i.id),cur=isThisSession(i.id);
-      const mark=cur?'<span style="font-size:9px;background:#27ae60;color:#fff;padding:1px 4px;border-radius:3px;margin-left:3px">本次✓</span>'
-                :prev?'<span style="font-size:9px;background:#b0c8e8;color:#1a4a7c;padding:1px 4px;border-radius:3px;margin-left:3px">前次📷</span>':'';
-      h+=`<button class="ibtn ${s?"s-tp":""}" onclick="toggleItem('${i.id}')">${s?"✓ ":""}${i.name}${mark}</button>`;
+    exp.forEach(i=>{const s=S.selectedIds.has(i.id);
+      h+=`<button class="ibtn ${s?"s-tp":""}" onclick="toggleItem('${i.id}')">${s?"✓ ":""}${i.name}${itemTag(i.id)}</button>`;
     });
     h+=`</div></div>`;
   });
@@ -601,7 +609,8 @@ function renderSelectTP(el){
   el.innerHTML=h;
 }
 function renderSelectNB(el){
-  let h=`<div class="header"><div class="badge badge-nb">新北市 ▸ ${S.projectName}</div><h1>選擇檢附項目</h1><p class="sub">已選 ${S.selectedIds.size} 項</p></div>
+  let h=`<div class="header"><div class="badge badge-nb">新北市 ▸ ${S.projectName}</div>
+    <h1>選擇檢附項目</h1><p class="sub">已選 ${S.selectedIds.size} 項</p></div>
   <div class="legend"><div class="li"><span class="sbadge s★">★</span>既有設備可免附</div><div class="li"><span class="sbadge s◎">◎</span>耐燃耐熱鋪設可免附</div></div>
   <div class="frow">
     <button class="fbtn ${S.nbFilter==="all"?"on":""}" onclick="S.nbFilter='all';render()">顯示全部</button>
@@ -610,21 +619,20 @@ function renderSelectNB(el){
   </div>`;
   let lastCat="";
   NB_SECS.forEach((sec,si)=>{
-    const vis=S.nbFilter==="nostar"?sec.items.filter(i=>!i.star&&!i.circle):sec.items;
+    const exp=expandOC(sec.items,{category:sec.category,catId:sec.catId,sub:sec.sub});
+    const vis=S.nbFilter==="nostar"?exp.filter(i=>!i.star&&!i.circle):exp;
     if(!vis.length)return;
     if(sec.category!==lastCat){h+=`<div class="sec-cat-label">（${sec.catId}）${sec.category}</div>`;lastCat=sec.category;}
-    h+=`<div class="card"><div class="sec-hd"><span class="sec-title" style="color:var(--nb)">${sec.sub||sec.category}</span>
+    h+=`<div class="card"><div class="sec-hd">
+      <span class="sec-title" style="color:var(--nb)">${sec.sub||sec.category}</span>
       <div class="sec-btns">
         <button class="sb" style="background:#1a4a7c" onclick="setSecNB(${si},true)">全選</button>
         <button class="sb" style="background:#c0392b" onclick="setSecNB(${si},false)">取消</button>
       </div></div><div class="item-grid">`;
     vis.forEach(i=>{
       const sel=S.selectedIds.has(i.id);
-      const prev=isPrevSession(i.id),cur=isThisSession(i.id);
-      const mark=cur?'<span style="font-size:9px;background:#27ae60;color:#fff;padding:1px 4px;border-radius:3px;margin-left:3px">本次✓</span>'
-                :prev?'<span style="font-size:9px;background:#b0c8e8;color:#1a4a7c;padding:1px 4px;border-radius:3px;margin-left:3px">前次📷</span>':'';
       let bx="";if(i.star)bx+=`<span class="sbadge s★">★</span>`;if(i.circle)bx+=`<span class="sbadge s◎">◎</span>`;
-      h+=`<button class="ibtn ${sel?"s-nb":""}" onclick="toggleItem('${i.id}')">${sel?"✓ ":""}${i.name}${bx}${mark}</button>`;
+      h+=`<button class="ibtn ${sel?"s-nb":""}" onclick="toggleItem('${i.id}')">${sel?"✓ ":""}${i.name}${bx}${itemTag(i.id)}</button>`;
     });
     h+=`</div></div>`;
   });
@@ -632,8 +640,8 @@ function renderSelectNB(el){
     ${S.selectedIds.size>0?`<button class="mbtn btn-nb" style="flex:2" onclick="startShoot()">開始拍照（${S.selectedIds.size}項）→</button>`:""}</div>`;
   el.innerHTML=h;
 }
-function setSecTP(ci,sel){const c=TP_CHECKLIST[ci];if(!c)return;c.items.forEach(i=>sel?S.selectedIds.add(i.id):S.selectedIds.delete(i.id));render();}
-function setSecNB(si,sel){const s=NB_SECS[si];if(!s)return;s.items.forEach(i=>sel?S.selectedIds.add(i.id):S.selectedIds.delete(i.id));render();}
+function setSecTP(ci,sel){expandOC(TP_CHECKLIST[ci]?.items||[],{}).forEach(i=>sel?S.selectedIds.add(i.id):S.selectedIds.delete(i.id));render();}
+function setSecNB(si,sel){const sec=NB_SECS[si];if(!sec)return;expandOC(sec.items,{}).forEach(i=>sel?S.selectedIds.add(i.id):S.selectedIds.delete(i.id));render();}
 function quickNB(){nbAll().filter(i=>!i.star&&!i.circle).forEach(i=>S.selectedIds.add(i.id));render();}
 function toggleItem(id){S.selectedIds.has(id)?S.selectedIds.delete(id):S.selectedIds.add(id);render();}
 function startShoot(){S.currentIdx=0;S.screen="shoot";render();}
@@ -642,16 +650,16 @@ function startShoot(){S.currentIdx=0;S.screen="shoot";render();}
 function getSelected(){return S.city==="TP"?tpAll().filter(i=>S.selectedIds.has(i.id)):nbAll().filter(i=>S.selectedIds.has(i.id));}
 function nbFname(item,idx){const seq=String(idx+1).padStart(2,"0"),sub=item.sub?`_${item.sub}`:"";return`${seq}_${item.catId}${item.category}${sub}_${item.name}`;}
 function tpFname(item,idx){return`${String(idx+1).padStart(2,"0")}_${item.category}_${item.name}`;}
-function getFolder(item){return S.city==="NB"?safeName(item.sub||item.category):safeName(item.category);}
 
 function renderShoot(el){
   const items=getSelected(),item=items[S.currentIdx];if(!item)return;
-  const photo=S.photos[item.id],progress=Object.keys(S.photos).length,total=items.length;
-  const loc=S.locations[item.id]||"",isNB=S.city==="NB";
-  const fname=isNB?nbFname(item,S.currentIdx):tpFname(item,S.currentIdx);
+  const pics=S.photos[item.id]||[];
+  const doneCount=items.filter(i=>hasPics(i.id)).length;
+  const total=items.length,loc=S.locations[item.id]||"",isNB=S.city==="NB";
+  const baseF=isNB?nbFname(item,S.currentIdx):tpFname(item,S.currentIdx);
   let h=`
-  <div class="prog-bar"><div class="prog-fill ${isNB?"fill-nb":"fill-tp"}" style="width:${(progress/total)*100}%"></div></div>
-  <div style="text-align:center;font-size:12px;color:#888;margin-bottom:8px">${progress}/${total} 已拍攝 ・ 第 ${S.currentIdx+1}/${total} 項</div>
+  <div class="prog-bar"><div class="prog-fill ${isNB?"fill-nb":"fill-tp"}" style="width:${(doneCount/total)*100}%"></div></div>
+  <div style="text-align:center;font-size:12px;color:#888;margin-bottom:8px">${doneCount}/${total} 項已拍 ・ 第 ${S.currentIdx+1}/${total} 項</div>
   <div class="card wb">
     <div class="wb-tag">📋 白板填寫提示</div>
     <table class="wb-t">
@@ -676,104 +684,86 @@ function renderShoot(el){
   }
   h+=`</table></div>
   <div class="ci ${isNB?"nb":"tp"}">
-    <div class="cc">${item.category}${item.sub?" ▸ "+item.sub:""} ／ 資料夾：${getFolder(item)}</div>
+    <div class="cc">${item.category}${item.sub?" ▸ "+item.sub:""} ／ 📁 ${getFolder(item)}</div>
     <div class="cn">${item.name}</div>
-    <div class="cf">${fname}.jpg</div>
+    <div class="cf">${baseF}${pics.length>1?` (共${pics.length}張)`:""}.jpg</div>
   </div>
   <div class="rem">
     <div class="rem-t">📸 拍照前確認</div>
     <div class="rem-r"><div class="rem-c" style="background:#2980b9">項</div><div class="rem-tx">測試項目：<strong style="color:#1a4a7c">${item.name}</strong></div></div>
-    <div class="rem-r"><div class="rem-c" style="background:#2980b9">位</div><div class="rem-tx">測試位置：<strong style="color:#1a4a7c">${loc||"⚠ 請先在白板欄填寫位置"}</strong></div></div>
+    <div class="rem-r"><div class="rem-c" style="background:#2980b9">位</div><div class="rem-tx">測試位置：<strong style="color:#1a4a7c">${loc||"⚠ 請先填寫位置"}</strong></div></div>
     <div class="rem-r"><div class="rem-c" style="background:#f39c12">✓</div><div class="rem-tx">測試人入鏡：${S.testerName} 消防設備士</div></div>
     <div class="rem-r"><div class="rem-c" style="background:#f39c12">✓</div><div class="rem-tx">標示牌入鏡（含案場名稱）</div></div>
     <div class="rem-r"><div class="rem-c" style="background:var(--gold)">日</div><div class="rem-tx">標示牌日期：<strong style="font-family:'Courier New',monospace;color:#7d5a00">${S.inspDate}</strong></div></div>
     ${isNB?`<div class="rem-r"><div class="rem-c" style="background:#f39c12">✓</div><div class="rem-tx">監造人入鏡：${S.supervisorName} 消防設備師</div></div>`:""}
   </div>
-  <div class="wm-i">🖼️ 拍照後自動在右下角加上浮水印 <strong>${S.inspDate}</strong></div>`;
-  if(S.processing){
-    h+=`<div class="proc">⏳ 正在加入日期浮水印…</div>`;
-  }else if(photo){
-    h+=`<div class="card prev">
-      <img src="${photo.url}" alt="" onclick="showPhotoModal('${photo.url}','${photo.name}')" style="cursor:pointer">
-      <div style="text-align:center;margin-top:6px;font-size:11px;color:#27ae60;font-weight:700">✓ 本次已拍攝（含浮水印）· 資料夾：${getFolder(item)}</div>
-      <div style="display:flex;gap:6px;margin-top:6px">
-        <button class="sb" style="flex:1;background:#555;font-size:12px" onclick="document.getElementById('camC').click()">📷 重拍</button>
-        <button class="sb" style="flex:1;background:#1a4a7c;font-size:12px" onclick="document.getElementById('camF').click()">📁 換圖</button>
-        <button class="sb" style="flex:1;background:#1a472a;font-size:12px" onclick="showPhotoModal('${photo.url}','${photo.name}')">💾 儲存</button>
-      </div></div>`;
-  }else if(isPrevSession(item.id)){
-    h+=`<div style="background:#e8f4fd;border:1.5px solid #b0c8e8;border-radius:10px;padding:12px 16px;margin-bottom:8px;text-align:center">
-      <div style="font-size:14px;font-weight:800;color:#1a4a7c;margin-bottom:4px">📷 前次拍攝已記錄</div>
-      <div style="font-size:11px;color:#555;margin-bottom:10px">此項目在前次拍攝已完成，本次可跳過或重拍覆蓋</div>
-      <div style="display:flex;gap:8px;justify-content:center">
-        <button class="sb" style="background:#555;font-size:12px;padding:7px 14px" onclick="document.getElementById('camC').click()">📷 重拍</button>
-        <button class="sb" style="background:#1a4a7c;font-size:12px;padding:7px 14px" onclick="document.getElementById('camF').click()">📁 換圖</button>
+  <div class="wm-i">🖼️ 拍照後自動在長邊右下角加上去背日期浮水印 <strong>${S.inspDate}</strong></div>`;
+  if(pics.length>0&&!S.processing){
+    h+=`<div class="card" style="padding:10px">
+      <div style="font-size:11px;font-weight:700;color:#27ae60;margin-bottom:8px">✓ 本次已拍 ${pics.length} 張 — 點縮圖可儲存 / 分享</div>
+      <div class="photo-strip">
+        ${pics.map((p,pi)=>`<div class="photo-thumb">
+          <img src="${p.url}" onclick="openShareModal('${item.id}',${pi})">
+          <button class="thumb-del" onclick="removePic('${item.id}',${pi})">✕</button>
+          <div class="thumb-no">第${pi+1}張</div>
+        </div>`).join("")}
       </div>
     </div>`;
-  }else{
-    h+=`<div class="card" style="padding:12px"><div class="cam-pair">
-      <div class="cam-box red" onclick="document.getElementById('camC').click()">
-        <div class="cam-icon">📷</div><div class="cam-lbl">點擊拍照</div><div class="cam-sub">開啟相機</div>
+  }else if(isPrev(item.id)&&!S.processing){
+    h+=`<div style="background:#e8f4fd;border:1.5px solid #b0c8e8;border-radius:10px;padding:10px 14px;margin-bottom:8px;text-align:center">
+      <div style="font-size:13px;font-weight:800;color:#1a4a7c;margin-bottom:2px">📷 前次拍攝已記錄</div>
+      <div style="font-size:11px;color:#555">可繼續新增或跳過此項</div>
+    </div>`;
+  }
+  if(S.processing){h+=`<div class="proc">⏳ 正在加入日期浮水印…</div>`;}
+  if(!S.processing){
+    h+=`<div class="card" style="padding:10px">
+      <div style="font-size:11px;color:#888;font-weight:600;text-align:center;margin-bottom:8px">
+        ${pics.length>0?`＋ 繼續新增第 ${pics.length+1} 張`:"請選擇拍照方式"}
       </div>
-      <div class="cam-box blue" onclick="document.getElementById('camF').click()">
-        <div class="cam-icon">📁</div><div class="cam-lbl">選取檔案</div><div class="cam-sub">相簿 / 檔案</div>
+      <div class="cam-pair">
+        <div class="cam-box red" onclick="document.getElementById('camC').click()">
+          <div class="cam-icon">📷</div><div class="cam-lbl">點擊拍照</div><div class="cam-sub">開啟相機</div>
+        </div>
+        <div class="cam-box blue" onclick="document.getElementById('camF').click()">
+          <div class="cam-icon">📁</div><div class="cam-lbl">選取檔案</div><div class="cam-sub">相簿 / 檔案</div>
+        </div>
       </div>
-    </div></div>`;
+    </div>`;
   }
   h+=`<input type="file" id="camC" accept="image/*" capture="environment" style="display:none" onchange="handleCapture(this)">
   <input type="file" id="camF" accept="image/*" style="display:none" onchange="handleCapture(this)">
   <div class="nav-row">
     <button class="nb-btn" ${S.currentIdx===0?"disabled style='opacity:.3'":""} onclick="navShoot(-1)">← 上一項</button>
     <button class="nb-btn" onclick="S.screen='select';render()" style="background:#e8f0f8;color:#1a4a7c;border-color:#b0c8e8">📋 改選項目</button>
-    <button class="nb-btn" ${S.currentIdx>=total-1?"disabled style='opacity:.3'":""} onclick="navShoot(1)">跳過 →</button>
+    <button class="nb-btn" ${S.currentIdx>=total-1?"disabled style='opacity:.3'":""} onclick="navShoot(1)">下一項 →</button>
   </div>`;
-  if(progress>0)h+=`<button class="mbtn btn-d" style="margin-top:8px" onclick="S.screen='review';render()">檢視全部照片 →</button>`;
+  if(doneCount>0)h+=`<button class="mbtn btn-d" style="margin-top:8px" onclick="S.screen='review';render()">檢視全部照片 →</button>`;
   el.innerHTML=h;
 }
 
 // roundRect polyfill
 if(!CanvasRenderingContext2D.prototype.roundRect){
-  CanvasRenderingContext2D.prototype.roundRect=function(x,y,w,h,r){
-    r=Math.min(r,w/2,h/2);this.beginPath();this.moveTo(x+r,y);
-    this.arcTo(x+w,y,x+w,y+h,r);this.arcTo(x+w,y+h,x,y+h,r);
-    this.arcTo(x,y+h,x,y,r);this.arcTo(x,y,x+w,y,r);this.closePath();return this;
-  };
+  CanvasRenderingContext2D.prototype.roundRect=function(x,y,w,h,r){r=Math.min(r,w/2,h/2);this.beginPath();this.moveTo(x+r,y);this.arcTo(x+w,y,x+w,y+h,r);this.arcTo(x+w,y+h,x,y+h,r);this.arcTo(x,y+h,x,y,r);this.arcTo(x,y,x+w,y,r);this.closePath();return this;};
 }
 async function addWM(file,ds){
   return new Promise(res=>{
     const img=new Image(),tmp=URL.createObjectURL(file);
     img.onload=()=>{
-      const c=document.createElement("canvas");
-      c.width=img.naturalWidth;c.height=img.naturalHeight;
+      const c=document.createElement("canvas");c.width=img.naturalWidth;c.height=img.naturalHeight;
       const ctx=c.getContext("2d");ctx.drawImage(img,0,0);URL.revokeObjectURL(tmp);
-
-      // 長邊右下角定位
-      const longSide=Math.max(img.naturalWidth,img.naturalHeight);
-      const fs=Math.max(Math.round(longSide*0.032),20);
+      const le=Math.max(img.naturalWidth,img.naturalHeight);
+      const fs=Math.max(Math.round(le*0.028),18);
       ctx.font=`bold ${fs}px 'Courier New',Courier,monospace`;
-      const tw=ctx.measureText(ds).width;
-      const mg=Math.round(longSide*0.015);
-
-      // 右下角座標（以圖片實際尺寸）
-      const tx=img.naturalWidth-tw-mg;
-      const ty=img.naturalHeight-mg;
-
-      // 去背：只用描邊＋填色，無底色矩形
+      ctx.textBaseline="bottom";
+      const tw=ctx.measureText(ds).width,mg=Math.round(le*0.012);
+      const tx=img.naturalWidth-tw-mg,ty=img.naturalHeight-mg;
       ctx.save();
-      ctx.lineWidth=Math.max(fs*0.12,2);
-      ctx.lineJoin="round";
-      ctx.strokeStyle="rgba(0,0,0,0.85)";
-      ctx.fillStyle="#FFD700";
-      ctx.shadowColor="rgba(0,0,0,0.7)";
-      ctx.shadowBlur=Math.round(fs*0.25);
-      ctx.shadowOffsetX=Math.round(fs*0.04);
-      ctx.shadowOffsetY=Math.round(fs*0.04);
-      ctx.strokeText(ds,tx,ty); // 描邊先畫（黑框）
-      ctx.shadowBlur=0;ctx.shadowOffsetX=0;ctx.shadowOffsetY=0;
-      ctx.fillText(ds,tx,ty);   // 填色後畫（金黃字）
+      ctx.lineWidth=Math.max(Math.round(fs*0.18),2);ctx.lineJoin="round";
+      ctx.strokeStyle="rgba(0,0,0,0.95)";ctx.strokeText(ds,tx,ty);
+      ctx.fillStyle="#FFFFFF";ctx.fillText(ds,tx,ty);
       ctx.restore();
-
-      c.toBlob(blob=>res({url:URL.createObjectURL(blob),blob}),"image/jpeg",0.93);
+      c.toBlob(blob=>res({url:URL.createObjectURL(blob),blob}),"image/jpeg",0.95);
     };
     img.onerror=()=>res(null);img.src=tmp;
   });
@@ -784,66 +774,83 @@ async function handleCapture(input){
   const locEl=document.getElementById("locIn");if(locEl)S.locations[item.id]=locEl.value;
   S.processing=true;render();
   const r=await addWM(file,S.inspDate);S.processing=false;
-  const idx=S.currentIdx,fname=S.city==="NB"?nbFname(item,idx):tpFname(item,idx);
-  S.photos[item.id]={url:r?r.url:URL.createObjectURL(file),blob:r?.blob,name:fname,folder:getFolder(item),timestamp:new Date().toISOString()};
-  markPhotoDone(item.id); // 記錄此項已拍，供下次登入辨識
-  if(S.currentIdx<items.length-1)S.currentIdx++;
+  const idx=S.currentIdx,baseF=S.city==="NB"?nbFname(item,idx):tpFname(item,idx);
+  const existing=S.photos[item.id]||[];
+  const fname=existing.length===0?baseF:`${baseF}_${existing.length+1}`;
+  S.photos[item.id]=[...existing,{url:r?r.url:URL.createObjectURL(file),blob:r?.blob,name:fname,folder:getFolder(item),ts:new Date().toISOString()}];
+  markDone(item.id);
+  if(existing.length===0&&S.currentIdx<items.length-1)S.currentIdx++;
   input.value="";render();
 }
+function removePic(id,pi){const a=S.photos[id]||[];a.splice(pi,1);if(a.length)S.photos[id]=a;else delete S.photos[id];render();}
 function navShoot(dir){
   const locEl=document.getElementById("locIn"),items=getSelected(),item=items[S.currentIdx];
   if(locEl&&item)S.locations[item.id]=locEl.value;
   const n=S.currentIdx+dir;if(n>=0&&n<items.length){S.currentIdx=n;render();}
 }
 
-// ── 照片預覽 Modal（儲存入口）─────────────
-function showPhotoModal(url,name){
-  document.getElementById("photoModal")?.remove();
-  const m=document.createElement("div");
-  m.id="photoModal";
-  m.style.cssText="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.93);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;";
+// ── 分享 Modal ───────────────────────────
+function openShareModal(id,pi=0){
+  const pics=S.photos[id]||[];const p=pics[pi]||pics[0];if(!p)return;
+  document.getElementById("shareModal")?.remove();
+  const m=document.createElement("div");m.id="shareModal";m.className="share-modal";
   m.innerHTML=`
-    <div style="background:rgba(255,255,255,0.13);border-radius:10px;padding:10px 18px;margin-bottom:14px;text-align:center;color:#fff;font-size:13px;line-height:2">
-      📱 <strong>手機</strong>：長按圖片 → 儲存至相簿<br>
-      💻 <strong>電腦</strong>：右鍵圖片 → 另存圖片為…
+    <div style="color:#fff;font-size:12px;font-weight:700;margin-bottom:8px;text-align:center">${p.name}.jpg</div>
+    <img src="${p.url}">
+    <div style="background:rgba(255,255,255,0.12);border-radius:8px;padding:8px 14px;margin:8px 0;text-align:center;color:#fff;font-size:12px;line-height:2">
+      📱 手機：長按圖片 → 儲存至相簿<br>💻 電腦：右鍵圖片 → 另存圖片為…
     </div>
-    <img src="${url}" style="max-width:100%;max-height:62vh;border-radius:10px;object-fit:contain;box-shadow:0 4px 24px rgba(0,0,0,0.5)">
-    <div style="color:#aaa;font-size:11px;margin-top:10px;font-family:'Courier New',monospace">${name}.jpg</div>
-    <button onclick="document.getElementById('photoModal').remove()"
-      style="margin-top:18px;padding:11px 32px;background:#fff;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;color:#333">✕ 關閉</button>`;
+    <div class="share-btns">
+      <button class="sb" style="background:#25D366;font-size:13px;padding:9px 18px" onclick="nativeShare('${id}',${pi})">📤 分享 / LINE</button>
+      <button class="sb" style="background:#1a4a7c;font-size:13px;padding:9px 18px" onclick="emailPhoto('${id}',${pi})">📧 Email</button>
+      <button class="sb" style="background:#555;font-size:13px;padding:9px 18px" onclick="document.getElementById('shareModal').remove()">✕ 關閉</button>
+    </div>`;
   m.addEventListener("click",e=>{if(e.target===m)m.remove();});
   document.body.appendChild(m);
 }
+async function nativeShare(id,pi){
+  const p=(S.photos[id]||[])[pi];if(!p||!p.blob)return;
+  try{const f=new File([p.blob],p.name+".jpg",{type:"image/jpeg"});
+    if(navigator.share&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:p.name});return;}
+  }catch(e){if(e.name==="AbortError")return;}
+  alert("此裝置不支援直接分享，請長按圖片儲存");
+}
+function emailPhoto(id,pi){
+  const p=(S.photos[id]||[])[pi];if(!p)return;
+  const sub=encodeURIComponent(`消防序拍 — ${S.projectName} — ${p.name}`);
+  const body=encodeURIComponent(`案場：${S.projectName}\n地址：${S.projectAddress}\n日期：${S.inspDate}\n照片：${p.name}.jpg\n\n（請先儲存照片，再手動附加至 Email）`);
+  window.open(`mailto:?subject=${sub}&body=${body}`);
+}
 
-// ── Review ────────────────────────────────
+// ── Review ───────────────────────────────
 function renderReview(el){
-  const items=getSelected(),progress=Object.keys(S.photos).length,total=items.length;
-  const missing=items.filter(i=>!S.photos[i.id]),isNB=S.city==="NB";
-  const folders=[...new Set(items.filter(i=>S.photos[i.id]).map(i=>S.photos[i.id].folder||getFolder(i)))];
+  const items=getSelected();
+  const doneItems=items.filter(i=>hasPics(i.id));
+  const totalPics=doneItems.reduce((s,i)=>s+(S.photos[i.id]||[]).length,0);
+  const missing=items.filter(i=>!hasPics(i.id)),isNB=S.city==="NB";
+  const folders=[...new Set(doneItems.map(i=>getFolder(i)))];
   let h=`<div class="header">
     <div class="badge ${isNB?"badge-nb":"badge-tp"}">${isNB?"新北市":"台北市"} ▸ 檢視確認</div>
     <h1>${S.projectName}</h1>
     <p class="sub">${S.projectAddress}</p>
     <p class="sub">檢查日期：<strong style="font-family:'Courier New',monospace;color:#7d5a00">${S.inspDate}</strong></p>
-    <p class="sub">${progress}/${total} 已拍攝</p>
+    <p class="sub">${doneItems.length}/${items.length} 項已拍 ・ 共 ${totalPics} 張</p>
   </div>`;
-  if(folders.length){
-    h+=`<div class="dl-info">📦 ZIP 資料夾結構（共 ${folders.length} 個）：
-      <strong>${folders.slice(0,6).join("　/　")}${folders.length>6?"…":""}</strong>
-    </div>`;
-  }
+  if(folders.length)h+=`<div class="dl-info">📦 資料夾：<strong>${folders.slice(0,5).join("　/　")}${folders.length>5?"…":""}</strong></div>`;
   items.forEach((item,idx)=>{
-    const photo=S.photos[item.id];
+    const pics=S.photos[item.id]||[];const cnt=pics.length;
     h+=`<div class="card rv-item">
-      <div class="dot ${photo?"dot-ok":"dot-miss"}">${photo?"✓":"!"}</div>
-      ${photo?`<img src="${photo.url}" class="rv-th" onclick="showPhotoModal('${photo.url}','${photo.name}')" title="點擊預覽/儲存">`:""}
+      <div class="dot ${cnt>0?"dot-ok":"dot-miss"}" style="font-size:${cnt>1?9:11}px">${cnt>1?cnt:cnt===1?"✓":"!"}</div>
+      <div style="display:flex;gap:3px;flex-shrink:0">
+        ${pics.slice(0,2).map((p,pi)=>`<img src="${p.url}" class="rv-th" onclick="openShareModal('${item.id}',${pi})">`).join("")}
+        ${cnt>2?`<div style="width:34px;height:40px;background:#e0e0d8;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#666">+${cnt-2}</div>`:""}
+      </div>
       <div style="flex:1;min-width:0">
         <div style="font-size:12px;font-weight:600">${String(idx+1).padStart(2,"0")}. ${item.name}</div>
         <div style="font-size:10px;color:#999">${item.category}${item.sub?" ▸ "+item.sub:""}</div>
-        ${photo?`<div style="font-size:10px;color:${isNB?"#1a4a7c":"#1a472a"}">📁 ${photo.folder||getFolder(item)} / ${photo.name}.jpg</div>`:""}
+        ${cnt>0?`<div style="font-size:10px;color:${isNB?"#1a4a7c":"#1a472a"}">📁 ${getFolder(item)} ／ ${cnt}張</div>`:""}
       </div>
-      ${photo?`<button class="sb" style="background:#1a472a;flex-shrink:0;font-size:12px;padding:6px 10px"
-        onclick="showPhotoModal('${photo.url}','${photo.name}')">💾</button>`:""}
+      ${cnt>0?`<button class="sb" style="background:#1a472a;flex-shrink:0;font-size:11px;padding:5px 9px" onclick="openShareModal('${item.id}',0)">💾</button>`:""}
     </div>`;
   });
   if(missing.length){
@@ -852,9 +859,10 @@ function renderReview(el){
     h+=`<button class="sb" style="background:#c0392b;margin-top:8px" onclick="goToMissing()">繼續拍攝未完成項目</button></div>`;
   }
   h+=`<div class="bstack">
-    ${S.downloading?`<div class="proc">⏳ 正在產生 ZIP，請稍候…</div>`:`
+    ${S.downloading?`<div class="proc">⏳ 處理中，請稍候…</div>`:`
     ${isNB?`<button class="mbtn btn-nb" onclick="exportNBList()">📋 匯出新北市檔名清單（TXT）</button>`:""}
-    <button class="mbtn btn-g" onclick="downloadZip()">📦 下載照片 ZIP（含各設備資料夾）</button>
+    <button class="mbtn" style="background:#27ae60" onclick="saveToDirectory()">📂 選擇資料夾下載（各設備分資料夾）</button>
+    <button class="mbtn btn-g" onclick="downloadZip()">📦 ZIP 下載（各設備資料夾打包）</button>
     <button class="mbtn btn-d" onclick="exportJSON()">📄 匯出清單 JSON</button>`}
     <div class="nav-row">
       <button class="nb-btn" onclick="S.screen='shoot';render()">← 返回拍照</button>
@@ -868,40 +876,55 @@ function renderReview(el){
   </div>`;
   el.innerHTML=h;
 }
-function goToMissing(){const items=getSelected(),idx=items.findIndex(i=>!S.photos[i.id]);if(idx>=0){S.currentIdx=idx;S.screen="shoot";render();}}
+function goToMissing(){const items=getSelected(),idx=items.findIndex(i=>!hasPics(i.id));if(idx>=0){S.currentIdx=idx;S.screen="shoot";render();}}
 
+async function saveToDirectory(){
+  const items=getSelected(),done=items.filter(i=>hasPics(i.id));
+  if(!done.length){alert("尚無已拍攝的照片");return;}
+  if(!window.showDirectoryPicker){alert("此瀏覽器不支援選擇資料夾\n改用 ZIP 下載");return downloadZip();}
+  let dir;try{dir=await window.showDirectoryPicker({mode:"readwrite"});}catch(e){if(e.name==="AbortError")return;return downloadZip();}
+  S.downloading=true;render();
+  try{
+    let cnt=0;
+    for(const item of done){for(const p of S.photos[item.id]||[]){
+      let blob=p.blob;if(!blob){try{const r=await fetch(p.url);blob=await r.blob();}catch(e){continue;}}
+      const fh=await dir.getDirectoryHandle(p.folder||getFolder(item),{create:true});
+      const wh=await fh.getFileHandle(p.name+".jpg",{create:true});
+      const w=await wh.createWritable();await w.write(blob);await w.close();cnt++;
+    }}
+    alert(`✅ 已儲存 ${cnt} 張，各設備資料夾已建立`);
+  }catch(e){alert("儲存失敗："+e.message);downloadZip();}
+  S.downloading=false;render();
+}
 async function downloadZip(){
-  const items=getSelected(),captured=items.filter(i=>S.photos[i.id]);
-  if(!captured.length){alert("尚無已拍攝的照片");return;}
+  const items=getSelected(),done=items.filter(i=>hasPics(i.id));
+  if(!done.length){alert("尚無已拍攝的照片");return;}
   S.downloading=true;render();
   try{
     const zip=new JSZip();
-    for(const item of captured){
-      const p=S.photos[item.id];
-      let blob=p.blob;
-      if(!blob){try{const r=await fetch(p.url);blob=await r.blob();}catch(e){continue;}}
+    for(const item of done){for(const p of S.photos[item.id]||[]){
+      let blob=p.blob;if(!blob){try{const r=await fetch(p.url);blob=await r.blob();}catch(e){continue;}}
       zip.folder(p.folder||getFolder(item)).file(p.name+".jpg",blob);
-    }
+    }}
     const content=await zip.generateAsync({type:"blob",compression:"DEFLATE",compressionOptions:{level:6}});
     const url=URL.createObjectURL(content);
     const a=document.createElement("a");a.href=url;
-    a.download=`消防照片_${S.projectName}_${S.inspDate}.zip`;
+    a.download=`消防序拍_${S.projectName}_${S.inspDate}.zip`;
     document.body.appendChild(a);a.click();
     setTimeout(()=>{document.body.removeChild(a);URL.revokeObjectURL(url);},500);
-  }catch(e){alert("ZIP 產生失敗："+e.message);}
+  }catch(e){alert("ZIP 失敗："+e.message);}
   S.downloading=false;render();
 }
-
 function exportNBList(){
   const items=getSelected();
-  let t=`新北市消防照片檔名清單\n案場：${S.projectName}\n地址：${S.projectAddress}\n日期：${S.inspDate}\n監造：${S.supervisorName}　測試：${S.testerName}\n${S.caseType?"類別："+S.caseType+"\n":""}\n${"─".repeat(55)}\n`;
+  let t=`新北市消防照片檔名清單｜消防序拍 V1.0\n案場：${S.projectName}\n地址：${S.projectAddress}\n日期：${S.inspDate}\n監造：${S.supervisorName}　測試：${S.testerName}\n${S.caseType?"類別："+S.caseType+"\n":""}\n${"─".repeat(55)}\n`;
   items.forEach((item,idx)=>{
-    const p=S.photos[item.id];
-    t+=`${String(idx+1).padStart(3,"0")}. [${p?"✓":"✗"}] 📁${getFolder(item)} / ${nbFname(item,idx)}.jpg\n`;
-    if(S.locations[item.id])t+=`     位置：${S.locations[item.id]}\n`;
-    t+="\n";
+    const pics=S.photos[item.id]||[],baseF=nbFname(item,idx);
+    t+=`${String(idx+1).padStart(3,"0")}. [${pics.length>0?`✓ ${pics.length}張`:"✗"}] 📁${getFolder(item)}\n`;
+    pics.length?pics.forEach((p,pi)=>{t+=`     ${pi+1}. ${p.name}.jpg\n`;}):t+=`     ${baseF}.jpg\n`;
+    if(S.locations[item.id])t+=`     位置：${S.locations[item.id]}\n`;t+="\n";
   });
-  t+=`\n★ 既有設備可免附　◎ 耐燃耐熱鋪設可免附\n`;
+  t+=`\n★ 既有設備可免附　◎ 耐燃耐熱鋪設可免附\n© 2026 FireLinkX 勤安居顧問有限公司\n`;
   const a=document.createElement("a");
   a.href=URL.createObjectURL(new Blob([t],{type:"text/plain;charset=utf-8"}));
   a.download=`新北市照片清單_${S.projectName}.txt`;
@@ -909,21 +932,26 @@ function exportNBList(){
 }
 function exportJSON(){
   const items=getSelected();
-  const obj={city:S.city==="NB"?"新北市":"台北市",operator:S.currentUser,
+  const obj={app:"消防序拍 V1.0",company:"FireLinkX 勤安居顧問有限公司",
+    city:S.city==="NB"?"新北市":"台北市",operator:S.currentUser,
     project:{name:S.projectName,address:S.projectAddress,inspDate:S.inspDate,
       supervisor:S.supervisorName,tester:S.testerName,builder:S.builderName,...(S.caseType?{caseType:S.caseType}:{})},
     photos:items.map((item,idx)=>{
-      const p=S.photos[item.id],fname=S.city==="NB"?nbFname(item,idx):tpFname(item,idx);
-      return{seq:idx+1,folder:getFolder(item),label:item.name,fileName:fname+".jpg",
-        location:S.locations[item.id]||"",status:p?"captured":"missing"};
+      const pics=S.photos[item.id]||[],fname=S.city==="NB"?nbFname(item,idx):tpFname(item,idx);
+      return{seq:idx+1,folder:getFolder(item),label:item.name,
+        files:pics.length?pics.map(p=>p.name+".jpg"):[fname+".jpg"],
+        location:S.locations[item.id]||"",status:pics.length?"captured":"missing",count:pics.length};
     }),
-    summary:{total:items.length,captured:Object.keys(S.photos).length,missing:items.length-Object.keys(S.photos).length}};
+    summary:{total:items.length,captured:items.filter(i=>hasPics(i.id)).length,
+      missing:items.filter(i=>!hasPics(i.id)).length,
+      totalPhotos:items.reduce((s,i)=>s+(S.photos[i.id]||[]).length,0)}};
   const a=document.createElement("a");
   a.href=URL.createObjectURL(new Blob([JSON.stringify(obj,null,2)],{type:"application/json"}));
   a.download=`照片清單_${S.projectName}.json`;
   document.body.appendChild(a);a.click();setTimeout(()=>document.body.removeChild(a),300);
 }
 
+applyUrlParams();
 render();
 </script>
 </body>
