@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>消防序拍 — 台北市</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+:root{--red:#c0392b;--green:#1a472a;--dark:#2c3e50;--bg:#f8f7f4;--card:#fff;--border:#e8e4dc;--gold:#d4a017;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Noto Sans TC','Microsoft JhengHei',-apple-system,sans-serif;background:var(--bg);color:#333;-webkit-font-smoothing:antialiased;}
+.wrap{max-width:500px;margin:0 auto;padding:14px 12px 90px;min-height:100vh;}
+.header{text-align:center;margin-bottom:14px;}
+.badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:1px;padding:3px 10px;border-radius:16px;margin-bottom:5px;color:var(--red);background:#fdf2f2;}
+h1{font-size:19px;font-weight:800;color:#1a1a1a;margin:2px 0;}
+.sub{font-size:12px;color:#888;margin:2px 0;}
+.card{background:var(--card);border-radius:10px;padding:13px;margin-bottom:8px;border:1px solid var(--border);}
+.fl{font-size:11px;color:#888;margin-bottom:3px;font-weight:600;}
+input[type=text],input[type=password],select{width:100%;padding:8px 10px;border:1px solid #ddd;border-radius:6px;font-size:13px;margin-bottom:8px;background:#fff;color:#333;}
+input.dw{border-color:var(--gold);background:#fffef5;font-weight:700;color:#7d5a00;font-family:'Courier New',monospace;font-size:15px;}
+.mbtn{width:100%;padding:13px;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;margin-top:4px;background:var(--red);}
+.mbtn.green{background:var(--green);}
+.mbtn.dark{background:var(--dark);}
+.sb{padding:5px 11px;border-radius:6px;font-size:11px;font-weight:700;border:none;cursor:pointer;color:#fff;white-space:nowrap;}
+.nb-btn{flex:1;padding:9px 6px;background:#f5f5f0;color:#333;border:1px solid #ddd;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;text-align:center;}
+.nav-row{display:flex;gap:7px;margin-top:8px;}
+.prog-bar{background:#e0e0d8;border-radius:8px;height:8px;margin-bottom:10px;overflow:hidden;}
+.prog-fill{height:100%;border-radius:8px;background:var(--red);transition:width .3s;}
+.sec-cat-label{font-size:12px;font-weight:800;color:var(--dark);margin:14px 0 6px 2px;display:flex;align-items:center;gap:6px;}
+.sec-cat-label::after{content:"";flex:1;height:1px;background:#ddd;}
+.sec-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.sec-title{font-size:13px;font-weight:800;color:var(--green);}
+.sec-btns{display:flex;gap:4px;}
+.item-grid{display:flex;flex-wrap:wrap;gap:5px;}
+.ibtn{padding:5px 8px;border-radius:6px;font-size:11px;font-weight:500;cursor:pointer;border:1px solid #ddd;background:#f5f5f0;color:#333;text-align:left;line-height:1.4;}
+.ibtn.sel{background:var(--green);color:#fff;border:2px solid var(--green);font-weight:700;}
+.stag{font-size:9px;padding:1px 4px;border-radius:3px;margin-left:3px;font-weight:700;}
+.stag-cur{background:#27ae60;color:#fff;}
+.stag-prev{background:#b0c8e8;color:#1a4a7c;}
+.wb{background:#fffef5;border:2px solid var(--gold);position:relative;}
+.wb-tag{position:absolute;top:-10px;left:14px;background:var(--gold);color:#fff;font-size:11px;font-weight:700;padding:2px 10px;border-radius:4px;}
+.wb-t{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px;}
+.wb-t td{padding:4px 6px;border-bottom:1px solid #eee;}
+.wbl{font-size:11px;color:#666;white-space:nowrap;}
+.wbv{font-weight:600;}
+.wbr{font-weight:800!important;color:var(--red)!important;}
+.wbd{font-weight:800!important;color:#7d5a00!important;font-family:'Courier New',monospace;font-size:14px;background:#fffbf0;padding:2px 6px;border-radius:4px;border:1px solid var(--gold);}
+.ci{text-align:center;border-radius:10px;padding:12px;margin-bottom:8px;background:var(--green);color:#fff;}
+.ci .cc{font-size:10px;opacity:.7;}
+.ci .cn{font-size:15px;font-weight:800;line-height:1.4;margin:3px 0;}
+.ci .cf{font-size:10px;opacity:.5;word-break:break-all;}
+.rem{background:#fffbf0;border:2px solid #f39c12;border-radius:10px;padding:11px 14px;margin-bottom:10px;}
+.rem-t{font-size:12px;font-weight:800;color:#e67e22;margin-bottom:8px;}
+.rem-r{display:flex;align-items:flex-start;gap:8px;margin-bottom:5px;}
+.rem-c{width:20px;height:20px;border-radius:10px;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px;}
+.rem-tx{font-size:12px;font-weight:600;color:#7d4800;line-height:1.5;}
+.wm-i{background:#f0f4fa;border:1px solid #b0c8e8;border-radius:8px;padding:8px 12px;font-size:11px;color:#1a4a7c;margin-bottom:10px;}
+.cam-pair{display:flex;gap:10px;}
+.cam-box{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100px;border-radius:8px;cursor:pointer;}
+.cam-box.red{border:2.5px dashed var(--red);background:#fdf8f8;}
+.cam-box.blue{border:2.5px dashed #1a4a7c;background:#f0f4fa;}
+.cam-icon{font-size:28px;margin-bottom:3px;}
+.cam-lbl{font-size:12px;font-weight:700;}
+.cam-sub{font-size:10px;margin-top:2px;color:#aaa;}
+.cam-box.red .cam-lbl{color:var(--red);}
+.cam-box.blue .cam-lbl{color:#1a4a7c;}
+.photo-strip{display:flex;gap:6px;overflow-x:auto;padding:4px 0;}
+.photo-thumb{flex-shrink:0;position:relative;text-align:center;}
+.photo-thumb img{width:68px;height:68px;object-fit:cover;border-radius:6px;cursor:pointer;border:2px solid #e0e0d8;}
+.thumb-del{position:absolute;top:-5px;right:-5px;width:18px;height:18px;background:#e74c3c;border:none;border-radius:9px;color:#fff;font-size:11px;cursor:pointer;line-height:18px;text-align:center;padding:0;}
+.thumb-no{font-size:9px;color:#888;margin-top:2px;}
+.proc{display:flex;align-items:center;justify-content:center;min-height:80px;background:#f0f4fa;border-radius:10px;border:1px solid #b0c8e8;font-size:13px;font-weight:600;color:#1a4a7c;}
+.rv-item{display:flex;gap:8px;align-items:center;padding:8px;}
+.dot{width:22px;height:22px;border-radius:11px;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;}
+.dot-ok{background:#27ae60;}.dot-miss{background:#e74c3c;}
+.rv-th{width:40px;height:40px;object-fit:cover;border-radius:6px;flex-shrink:0;cursor:pointer;}
+.warn{background:#fdf2f2;border:1px solid #e74c3c;}
+.warn-t{font-size:13px;font-weight:700;color:var(--red);margin-bottom:6px;}
+.warn-i{font-size:11px;color:#922;margin-left:8px;margin-bottom:2px;}
+.lock-sc{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px 20px;text-align:center;}
+.hist-wrap{background:#f5fbf5;border:1.5px solid #a8d5a8;border-radius:9px;padding:10px 12px;margin-bottom:10px;}
+.hist-lbl{font-size:11px;font-weight:800;color:#1a472a;margin-bottom:6px;}
+.hist-row{display:flex;gap:6px;align-items:center;}
+.hist-row select{margin-bottom:0;border-color:#a8d5a8;background:#fff;font-size:12px;color:#1a472a;font-weight:600;}
+.user-chip{display:inline-block;background:#fdf2f2;color:var(--red);font-size:11px;font-weight:700;padding:2px 10px;border-radius:12px;margin-bottom:4px;}
+.dl-info{background:#f0f8f0;border:1.5px solid #a8d5a8;border-radius:8px;padding:10px 14px;margin-bottom:8px;font-size:11px;color:#1a472a;}
+.bstack{display:flex;flex-direction:column;gap:8px;margin-top:8px;}
+.share-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.93);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;}
+.share-btns{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:8px;}
+</style>
+</head>
+<body>
+<div id="app" class="wrap"></div>
+<script>
+// ════════════════════════════════════════
+// 🔑 密碼（台北市專版）
+// ════════════════════════════════════════
+const USERS={
+  "fire-admin": "管理員",
+  "wu-2026":    "吳○○ 消防設備師",
+  "qin-2026":   "秦○○ 消防設備士",
+  "chen-2026":  "陳○○ 消防設備士",
+};
+const CITY_LABEL="台北市（非新建案）";
+const CITY_CODE="TP";
+
+// ════════════════════════════════════════
+// 台北市清單（非新建案 104.1.15）
+// ════════════════════════════════════════
+const CHECKLIST=[
+  {catId:"一",category:"共有設備",subs:[
+    {sub:"發電機",items:[
+      {id:"TP-GEN-01",name:"發電機組全景（含固定基座、控制盤、充電器、蓄電池）"},
+      {id:"TP-GEN-02",name:"ATS開關（開、關）（含標示）"},
+      {id:"TP-GEN-03",name:"補充油箱（含油品種類）"},
+    ]},
+  ]},
+  {catId:"二",category:"水系統滅火設備",subs:[
+    {sub:"室內(外)消防栓設備",items:[
+      {id:"TP-HYD-01",name:"加壓送水裝置"},
+      {id:"TP-HYD-02",name:"室內(外)消防栓箱（開、關）"},
+      {id:"TP-HYD-03",name:"室內(外)消防栓水帶箱（開、關）"},
+      {id:"TP-HYD-04",name:"室內消防栓測試用出水口（含標示）及消防實際射水"},
+    ]},
+    {sub:"自動撒水設備",items:[
+      {id:"TP-SPR-01",name:"加壓送水裝置"},
+      {id:"TP-SPR-02",name:"申請樓層擇一自動警報逆止閥或流水檢知裝置（含制水閥標示）"},
+      {id:"TP-SPR-03",name:"末端查驗管"},
+      {id:"TP-SPR-04",name:"自動撒水設備送水口（含送水壓力）"},
+      {id:"TP-SPR-05",name:"撒水頭及配管裝置實景"},
+      {id:"TP-SPR-06",name:"蜂鳴器"},
+    ]},
+    {sub:"自動水霧設備",items:[
+      {id:"TP-WF-01",name:"加壓送水裝置"},
+      {id:"TP-WF-02",name:"水霧設備送水口（含送水壓力）"},
+      {id:"TP-WF-03",name:"申請樓層擇一自動警報逆止閥或流水檢知裝置（含制水閥標示）"},
+      {id:"TP-WF-04",name:"各型式感知元"},
+      {id:"TP-WF-05",name:"蜂鳴器"},
+    ]},
+    {sub:"泡沫滅火設備",items:[
+      {id:"TP-FOAM-01",name:"加壓送水裝置"},
+      {id:"TP-FOAM-02",name:"比例混合器、Y型過濾器及泡沫原液槽全景"},
+      {id:"TP-FOAM-03",name:"申請樓層擇一自動警報逆止閥或流水檢知裝置（含制水閥標示）"},
+      {id:"TP-FOAM-04",name:"泡沫（泡水）頭、感知元、一齊開放閥、手動啟動裝置及配管裝置實景"},
+      {id:"TP-FOAM-05",name:"泡沫消防栓箱（開、關）"},
+      {id:"TP-FOAM-06",name:"蜂鳴器"},
+    ]},
+  ]},
+  {catId:"三",category:"化學系統滅火設備",subs:[
+    {sub:"乾粉、二氧化碳滅火設備",items:[
+      {id:"TP-CHEM-01",name:"鋼瓶（藥劑）"},
+      {id:"TP-CHEM-02",name:"噴頭及配管"},
+      {id:"TP-CHEM-03",name:"鋼瓶啟動裝置"},
+      {id:"TP-CHEM-04",name:"各型式探測器及配線"},
+      {id:"TP-CHEM-05",name:"受信總機（開、關）"},
+      {id:"TP-CHEM-06",name:"選擇閥（含標示）"},
+      {id:"TP-CHEM-07",name:"放射警告裝置"},
+      {id:"TP-CHEM-08",name:"通風換氣裝置"},
+      {id:"TP-CHEM-09",name:"控制盤"},
+    ]},
+    {sub:"簡易自動滅火設備",items:[
+      {id:"TP-SE-01",name:"藥劑鋼瓶（含標示）"},
+      {id:"TP-SE-02",name:"手動開關"},
+      {id:"TP-SE-03",name:"噴頭及感知元件"},
+    ]},
+  ]},
+  {catId:"四",category:"警報設備",subs:[
+    {sub:"火警自動警報設備",items:[
+      {id:"TP-FA-01",name:"火警受信總機整組（含蓄電池、話筒等）（開、關）"},
+      {id:"TP-FA-02",name:"火警受信副機整組（含蓄電池、話筒等）（開、關）"},
+      {id:"TP-FA-03",name:"各型式探測器及配線"},
+    ]},
+    {sub:"手動報警設備",items:[
+      {id:"TP-MA-01",name:"火警綜合盤（含標示燈、警鈴、配線及話筒）（開、關）"},
+    ]},
+    {sub:"緊急廣播設備",items:[
+      {id:"TP-PA-01",name:"廣播主機整組（含送話器及蓄電池）"},
+      {id:"TP-PA-02",name:"各型式揚聲器"},
+    ]},
+    {sub:"瓦斯漏氣火警自動警報設備",items:[
+      {id:"TP-GAS-01",name:"瓦斯漏氣受信總機整組（含蓄電池、分區標示等）（開、關）"},
+      {id:"TP-GAS-02",name:"瓦斯漏氣檢知器、標示燈及配線"},
+    ]},
+  ]},
+  {catId:"五",category:"避難逃生設備",subs:[
+    {sub:"標示設備",items:[
+      {id:"TP-SIGN-01",name:"各型式避難方向指示燈（標）"},
+    ]},
+    {sub:"避難器具",items:[
+      {id:"TP-EQ-01",name:"各型式避難器具（含固定架、標示、操作說明及開口部）"},
+      {id:"TP-EQ-02",name:"各型式避難器具裝置點至地面層之下降全景"},
+      {id:"TP-EQ-03",name:"避難梯全景（含開口）"},
+    ]},
+    {sub:"緊急照明設備",items:[
+      {id:"TP-EM-01",name:"各型式緊急照明燈具"},
+    ]},
+  ]},
+  {catId:"六",category:"消防搶救上之必要設備",subs:[
+    {sub:"連結送水管",items:[
+      {id:"TP-SS-01",name:"申請樓層擇一連結送水管出水口水帶箱（開、關）"},
+      {id:"TP-SS-02",name:"送水口（含標示）"},
+    ]},
+    {sub:"消防專用蓄水池設備",items:[
+      {id:"TP-RES-01",name:"加壓送水裝置"},
+      {id:"TP-RES-02",name:"採水口或投入孔（開、關）（含標示）"},
+    ]},
+    {sub:"室內排煙設備（機械排煙）",items:[
+      {id:"TP-SMK-01",name:"排煙機組"},
+      {id:"TP-SMK-02",name:"排煙機組控制盤（開、關）"},
+      {id:"TP-SMK-03",name:"排煙風管配置情形（含該風管外部開口）"},
+      {id:"TP-SMK-04",name:"偵煙式探測器及配線"},
+      {id:"TP-SMK-05",name:"手動啟動裝置及配線（含標示）"},
+      {id:"TP-SMK-06",name:"防煙垂壁"},
+    ]},
+    {sub:"室內排煙設備（自然排煙）",items:[
+      {id:"TP-NS-01",name:"窗戶（開、關）（含手動啟動開關及簡易操作說明）"},
+    ]},
+    {sub:"緊急昇降機間及特別安全梯間排煙設備（機械排煙）",items:[
+      {id:"TP-STR-01",name:"進風、排煙管道（含進風、排煙閘門）"},
+      {id:"TP-STR-02",name:"各型式排煙機組"},
+      {id:"TP-STR-03",name:"各型式排煙機組控制盤（開、關）"},
+      {id:"TP-STR-04",name:"排煙室全景（含梯間排煙區劃）"},
+    ]},
+    {sub:"緊急昇降機間及特別安全梯間排煙設備（自然排煙）",items:[
+      {id:"TP-SNS-01",name:"開口部、通風實景"},
+      {id:"TP-SNS-02",name:"手動啟動開關（含標示）"},
+    ]},
+    {sub:"緊急電源插座",items:[
+      {id:"TP-EP-01",name:"緊急電源插座保護箱（開、關）"},
+    ]},
+    {sub:"無線電通信輔助設備",items:[
+      {id:"TP-RF-01",name:"消防隊專用無線電接頭保護箱（開、關）"},
+      {id:"TP-RF-02",name:"洩波同軸電纜配線情形"},
+      {id:"TP-RF-03",name:"蓄電池組整組"},
+    ]},
+  ]},
+  {catId:"其",category:"滅火器",subs:[
+    {sub:"滅火器",items:[
+      {id:"TP-EXT-01",name:"各型式滅火器（含標示）"},
+    ]},
+  ]},
+];
+
+// ════════════════════════════════════════
+// 工具
+// ════════════════════════════════════════
+function expandOC(items,prefix){
+  const out=[];
+  for(const i of items){
+    if(/（開[、,，]?關）/.test(i.name)){
+      out.push({...i,...prefix,id:i.id+"-C",name:i.name.replace(/（開[、,，]?關）/,"（關）")});
+      out.push({...i,...prefix,id:i.id+"-O",name:i.name.replace(/（開[、,，]?關）/,"（開）")});
+    }else{out.push({...i,...prefix});}
+  }
+  return out;
+}
+const SECS=CHECKLIST.flatMap(c=>c.subs.map(s=>({catId:c.catId,category:c.category,sub:s.sub,items:s.items})));
+function allItems(){return SECS.flatMap(s=>expandOC(s.items,{category:s.category,catId:s.catId,sub:s.sub}));}
+function safeName(n){return n.replace(/[\/\\:*?"<>|]/g,"_").trim()||"其他";}
+function getFolder(item){return safeName(item.sub||item.category);}
+function makeFname(item,idx){
+  const seq=String(idx+1).padStart(2,"0"),sub=item.sub?`_${item.sub}`:"";
+  return`${seq}_${item.catId}${item.category}${sub}_${item.name}`;
+}
+
+// ════════════════════════════════════════
+// State
+// ════════════════════════════════════════
+let S={
+  screen:"lock",pwError:false,currentUser:"",
+  projectName:"",projectAddress:"",inspDate:"",
+  supervisorName:"",testerName:"",builderName:"",
+  selectedIds:new Set(),photos:{},locations:{},currentIdx:0,
+  processing:false,downloading:false,
+  projectHistory:undefined,photoStatus:{},
+};
+function normDate(v){if(!v)return"";const m=v.match(/^(\d{4})[.\-\/](\d{1,2})[.\-\/](\d{1,2})$/);return m?`${m[1]}.${m[2].padStart(2,"0")}.${m[3].padStart(2,"0")}`:v;}
+function hasPics(id){return(S.photos[id]||[]).length>0;}
+function isPrev(id){return!!(S.photoStatus[id]?.done&&!hasPics(id));}
+
+// ════════════════════════════════════════
+// localStorage
+// ════════════════════════════════════════
+function tryLoadHistory(){
+  try{const r=localStorage.getItem("fireseq-tp-projects");S.projectHistory=r?JSON.parse(r):null;}
+  catch(e){S.projectHistory=null;}render();
+}
+function saveHistory(d){
+  try{
+    const prev=Array.isArray(S.projectHistory)?S.projectHistory:[];
+    const next=[d,...prev.filter(h=>!(h.projectName===d.projectName&&h.projectAddress===d.projectAddress))].slice(0,5);
+    localStorage.setItem("fireseq-tp-projects",JSON.stringify(next));S.projectHistory=next;
+  }catch(e){}
+}
+function applyHistory(idx){
+  if(idx==="")return;
+  const h=S.projectHistory?.[Number(idx)];if(!h)return;
+  Object.assign(S,h);render();
+}
+function psKey(){return"fireseq-tp-ps-"+S.projectName+"_"+S.inspDate;}
+function loadPS(){try{const r=localStorage.getItem(psKey());S.photoStatus=r?JSON.parse(r):{};}catch(e){S.photoStatus={};}}
+function markDone(id){try{S.photoStatus[id]={done:true};localStorage.setItem(psKey(),JSON.stringify(S.photoStatus));}catch(e){}}
+
+// ════════════════════════════════════════
+// URL 參數
+// ════════════════════════════════════════
+function applyUrlParams(){
+  const p=new URLSearchParams(location.search);
+  if(!p.has("n")&&!p.has("pw"))return;
+  if(p.get("n"))  S.projectName=p.get("n");
+  if(p.get("a"))  S.projectAddress=p.get("a");
+  if(p.get("d"))  S.inspDate=normDate(p.get("d"));
+  if(p.get("s"))  S.supervisorName=p.get("s");
+  if(p.get("r"))  S.testerName=p.get("r");
+  if(p.get("b"))  S.builderName=p.get("b");
+  if(p.get("pw")){const u=USERS[p.get("pw")];if(u){S.currentUser=u;S.screen="project";}}
+  history.replaceState({},"",location.pathname);
+}
+
+// ════════════════════════════════════════
+// Render Router
+// ════════════════════════════════════════
+function render(){
+  const el=document.getElementById("app");
+  if(S.screen==="lock")    return renderLock(el);
+  if(S.screen==="project") return renderProject(el);
+  if(S.screen==="select")  return renderSelect(el);
+  if(S.screen==="shoot")   return renderShoot(el);
+  if(S.screen==="review")  return renderReview(el);
+}
+
+// ── Lock ─────────────────────────────────
+function renderLock(el){
+  el.innerHTML=`<div class="lock-sc">
+    <img src="logo.png" alt="消防序拍"
+      style="width:200px;max-width:80vw;margin-bottom:8px;border-radius:12px"
+      onerror="this.style.display='none';document.getElementById('lf').style.display='block'">
+    <div id="lf" style="display:none;font-size:56px;margin-bottom:8px">🚒</div>
+    <div style="font-size:22px;font-weight:800;margin-bottom:2px">消防序拍</div>
+    <div style="font-size:12px;color:var(--red);font-weight:700;letter-spacing:2px;margin-bottom:2px">台北市（非新建案）V 1.0</div>
+    <div style="font-size:12px;color:#888;margin-bottom:24px">竣工查驗照片記錄工具</div>
+    <input type="password" id="pwIn" placeholder="請輸入密碼"
+      style="width:220px;text-align:center;font-size:16px;padding:10px;letter-spacing:3px;margin-bottom:12px;border:1px solid #ddd;border-radius:8px">
+    <button class="mbtn" style="width:220px" onclick="tryLogin()">登入</button>
+    ${S.pwError?'<div style="color:var(--red);font-size:12px;margin-top:8px">密碼錯誤，請重試</div>':''}
+    <div style="position:fixed;bottom:0;left:0;right:0;padding:10px;text-align:center;font-size:10px;color:#aaa;background:var(--bg);border-top:1px solid var(--border);line-height:1.8">
+      © 2026 FireLinkX 和勤安居顧問有限公司 All rights reserved.
+    </div>
+  </div>`;
+  const i=document.getElementById("pwIn");i.focus();i.onkeydown=e=>{if(e.key==="Enter")tryLogin();};
+}
+function tryLogin(){
+  const v=document.getElementById("pwIn").value,u=USERS[v];
+  if(u){S.screen="project";S.pwError=false;S.currentUser=u;}else S.pwError=true;render();
+}
+
+// ── Project ──────────────────────────────
+function renderProject(el){
+  if(S.projectHistory===undefined)tryLoadHistory();
+  const hist=S.projectHistory;
+  el.innerHTML=`
+  <div class="header">
+    <div class="user-chip">👤 ${S.currentUser}</div>
+    <div class="badge">台北市（非新建案）▸ 案件資訊</div>
+    <h1>填寫案件資訊</h1>
+    <p class="sub">日期採西元紀年，同時作為標示牌日期與照片浮水印</p>
+  </div>
+  ${hist&&hist.length?`<div class="hist-wrap">
+    <div class="hist-lbl">📂 帶入歷史案件</div>
+    <div class="hist-row">
+      <select id="histSel">
+        <option value="">— 選擇歷史案件 —</option>
+        ${hist.map((h,i)=>`<option value="${i}">${h.projectName||"(未命名)"}・${h.inspDate||""}・${h.supervisorName||""}</option>`).join("")}
+      </select>
+      <button class="sb" style="background:#1a472a" onclick="applyHistory(document.getElementById('histSel').value)">帶入</button>
+    </div>
+  </div>`:""}
+  <div class="card">
+    <div class="fl">案場名稱 *</div>
+    <input type="text" id="f_name" value="${S.projectName}" placeholder="例：國立○○大樓">
+    <div class="fl">場所地址 *</div>
+    <input type="text" id="f_addr" value="${S.projectAddress}" placeholder="例：台北市○○區○○路1號">
+    <div class="fl" style="color:#7d5a00;font-weight:800">📅 檢查日期（西元）* — 標示牌日期與浮水印</div>
+    <input type="text" id="f_date" class="dw" value="${S.inspDate}" placeholder="例：2026.03.29" maxlength="10">
+    <div style="font-size:10px;color:#888;margin-top:-6px;margin-bottom:10px">格式 YYYY.MM.DD，月日不足兩位自動補零</div>
+    <div style="height:6px"></div>
+    <div class="fl">監造人（消防設備師）</div>
+    <input type="text" id="f_super" value="${S.supervisorName}" placeholder="例：吳○○">
+    <div class="fl">測試人（消防設備士）</div>
+    <input type="text" id="f_tester" value="${S.testerName}" placeholder="例：秦○○">
+    <div class="fl">起造人（選填）</div>
+    <input type="text" id="f_builder" value="${S.builderName}" placeholder="">
+  </div>
+  <button class="mbtn" onclick="saveProject()">下一步：選擇檢附項目 →</button>
+  <button class="nb-btn" style="margin-top:8px" onclick="S.screen='lock';render()">← 登出</button>`;
+}
+function saveProject(){
+  S.projectName=document.getElementById("f_name").value.trim();
+  S.projectAddress=document.getElementById("f_addr").value.trim();
+  S.inspDate=normDate(document.getElementById("f_date").value.trim());
+  S.supervisorName=document.getElementById("f_super").value.trim();
+  S.testerName=document.getElementById("f_tester").value.trim();
+  S.builderName=document.getElementById("f_builder").value.trim();
+  if(!S.projectName||!S.projectAddress){alert("請填寫案場名稱和地址");return;}
+  if(!S.inspDate){alert("請填寫檢查日期，例：2026.03.29");return;}
+  saveHistory({projectName:S.projectName,projectAddress:S.projectAddress,
+    inspDate:S.inspDate,supervisorName:S.supervisorName,testerName:S.testerName,
+    builderName:S.builderName,
+    savedAt:new Date().toLocaleDateString("zh-TW",{year:"numeric",month:"2-digit",day:"2-digit"})});
+  loadPS();S.screen="select";render();
+}
+
+// ── Select ───────────────────────────────
+function itemTag(id){
+  if(hasPics(id))return`<span class="stag stag-cur">本次✓</span>`;
+  if(isPrev(id)) return`<span class="stag stag-prev">前次📷</span>`;
+  return"";
+}
+function renderSelect(el){
+  let h=`<div class="header">
+    <div class="badge">台北市（非新建案）▸ ${S.projectName}</div>
+    <h1>選擇檢附項目</h1>
+    <p class="sub">已選 ${S.selectedIds.size} 項</p>
+  </div>`;
+  let lastCat="";
+  SECS.forEach((sec,si)=>{
+    const expanded=expandOC(sec.items,{category:sec.category,catId:sec.catId,sub:sec.sub});
+    if(sec.category!==lastCat){
+      h+=`<div class="sec-cat-label">（${sec.catId}）${sec.category}</div>`;
+      lastCat=sec.category;
+    }
+    h+=`<div class="card"><div class="sec-hd">
+      <span class="sec-title">${sec.sub||sec.category}</span>
+      <div class="sec-btns">
+        <button class="sb" style="background:#1a472a" onclick="setSec(${si},true)">全選</button>
+        <button class="sb" style="background:#c0392b" onclick="setSec(${si},false)">取消</button>
+      </div></div><div class="item-grid">`;
+    expanded.forEach(i=>{
+      const s=S.selectedIds.has(i.id);
+      h+=`<button class="ibtn ${s?"sel":""}" onclick="toggleItem('${i.id}')">${s?"✓ ":""}${i.name}${itemTag(i.id)}</button>`;
+    });
+    h+=`</div></div>`;
+  });
+  h+=`<div class="nav-row">
+    <button class="nb-btn" onclick="S.screen='project';render()">← 修改案件</button>
+    ${S.selectedIds.size>0?`<button class="mbtn" style="flex:2;margin-top:0" onclick="startShoot()">開始拍照（${S.selectedIds.size}項）→</button>`:""}
+  </div>`;
+  el.innerHTML=h;
+}
+function setSec(si,sel){
+  const sec=SECS[si];if(!sec)return;
+  expandOC(sec.items,{}).forEach(i=>sel?S.selectedIds.add(i.id):S.selectedIds.delete(i.id));render();
+}
+function toggleItem(id){S.selectedIds.has(id)?S.selectedIds.delete(id):S.selectedIds.add(id);render();}
+function startShoot(){S.currentIdx=0;S.screen="shoot";render();}
+
+// ── Shoot ─────────────────────────────────
+function getSelected(){return allItems().filter(i=>S.selectedIds.has(i.id));}
+
+function renderShoot(el){
+  const items=getSelected(),item=items[S.currentIdx];if(!item)return;
+  const pics=S.photos[item.id]||[];
+  const doneCount=items.filter(i=>hasPics(i.id)).length;
+  const total=items.length,loc=S.locations[item.id]||"";
+  const baseF=makeFname(item,S.currentIdx);
+
+  let h=`
+  <div class="prog-bar"><div class="prog-fill" style="width:${(doneCount/total)*100}%"></div></div>
+  <div style="text-align:center;font-size:12px;color:#888;margin-bottom:8px">${doneCount}/${total} 項已拍 ・ 第 ${S.currentIdx+1}/${total} 項</div>
+
+  <div class="card wb">
+    <div class="wb-tag">📋 白板填寫提示</div>
+    <table class="wb-t">
+      <tr><td class="wbl">案場名稱</td><td class="wbv">${S.projectName}</td></tr>
+      <tr><td class="wbl">場所地址</td><td class="wbv">${S.projectAddress}</td></tr>
+      <tr><td class="wbl">起 造 人</td><td class="wbv">${S.builderName||"—"}</td></tr>
+      <tr><td class="wbl">監 造 人</td><td class="wbv">${S.supervisorName} 消防設備師</td></tr>
+      <tr><td class="wbl">測 試 人</td><td class="wbv wbr">${S.testerName} 消防設備士</td></tr>
+      <tr><td class="wbl">設備類別</td><td class="wbv wbr">${item.sub||item.category}</td></tr>
+      <tr><td class="wbl">測試項目</td><td class="wbv wbr">${item.name}</td></tr>
+      <tr><td class="wbl">檢查位置</td><td><input type="text" id="locIn" value="${loc}" placeholder="例：B1樓、3F" style="padding:4px;font-size:12px;font-weight:700;color:var(--red);width:100%;margin:0;border-color:#ddd"></td></tr>
+      <tr><td class="wbl">檢查日期</td><td><span class="wbd">${S.inspDate}</span></td></tr>
+      <tr><td class="wbl">檢查現況</td><td class="wbv">☑ 竣工測試</td></tr>
+    </table>
+  </div>
+
+  <div class="ci">
+    <div class="cc">${item.category}${item.sub?" ▸ "+item.sub:""} ／ 📁 ${getFolder(item)}</div>
+    <div class="cn">${item.name}</div>
+    <div class="cf">${baseF}${pics.length>1?` (共${pics.length}張)`:""}.jpg</div>
+  </div>
+
+  <div class="rem">
+    <div class="rem-t">📸 拍照前確認</div>
+    <div class="rem-r"><div class="rem-c" style="background:#2980b9">項</div><div class="rem-tx">測試項目：<strong style="color:#1a4a7c">${item.name}</strong></div></div>
+    <div class="rem-r"><div class="rem-c" style="background:#2980b9">位</div><div class="rem-tx">測試位置：<strong style="color:#1a4a7c">${loc||"⚠ 請先填寫位置"}</strong></div></div>
+    <div class="rem-r"><div class="rem-c" style="background:#f39c12">✓</div><div class="rem-tx">測試人入鏡：${S.testerName} 消防設備士</div></div>
+    <div class="rem-r"><div class="rem-c" style="background:#f39c12">✓</div><div class="rem-tx">標示牌入鏡（含案場名稱）</div></div>
+    <div class="rem-r"><div class="rem-c" style="background:var(--gold)">日</div><div class="rem-tx">標示牌日期：<strong style="font-family:'Courier New',monospace;color:#7d5a00">${S.inspDate}</strong></div></div>
+  </div>
+  <div class="wm-i">🖼️ 拍照後自動在右下角加上去背日期浮水印 <strong>${S.inspDate}</strong></div>`;
+
+  // 已拍縮圖
+  if(pics.length>0){
+    h+=`<div class="card" style="padding:10px">
+      <div style="font-size:11px;font-weight:700;color:#27ae60;margin-bottom:8px">✓ 本次已拍 ${pics.length} 張</div>
+      <div class="photo-strip">
+        ${pics.map((p,pi)=>`
+        <div class="photo-thumb">
+          <img src="${p.url}" onclick="openShareModal('${item.id}',${pi})">
+          <button class="thumb-del" onclick="removePic('${item.id}',${pi})">✕</button>
+          <div class="thumb-no">第${pi+1}張</div>
+        </div>`).join("")}
+      </div>
+    </div>`;
+  }else if(isPrev(item.id)){
+    h+=`<div style="background:#e8f4fd;border:1.5px solid #b0c8e8;border-radius:10px;padding:10px 14px;margin-bottom:8px;text-align:center">
+      <div style="font-size:13px;font-weight:800;color:#1a4a7c;margin-bottom:2px">📷 前次拍攝已記錄</div>
+      <div style="font-size:11px;color:#555">可繼續新增或跳過此項</div>
+    </div>`;
+  }
+  if(S.processing){h+=`<div class="proc">⏳ 正在加入日期浮水印…</div>`;}
+  if(!S.processing){
+    h+=`<div class="card" style="padding:10px">
+      <div style="font-size:11px;color:#888;font-weight:600;text-align:center;margin-bottom:8px">
+        ${pics.length>0?`＋ 繼續新增第 ${pics.length+1} 張`:"請選擇拍照方式"}
+      </div>
+      <div class="cam-pair">
+        <div class="cam-box red" onclick="document.getElementById('camC').click()">
+          <div class="cam-icon">📷</div><div class="cam-lbl">點擊拍照</div><div class="cam-sub">開啟相機</div>
+        </div>
+        <div class="cam-box blue" onclick="document.getElementById('camF').click()">
+          <div class="cam-icon">📁</div><div class="cam-lbl">選取檔案</div><div class="cam-sub">相簿 / 檔案</div>
+        </div>
+      </div>
+    </div>`;
+  }
+  h+=`<input type="file" id="camC" accept="image/*" capture="environment" style="display:none" onchange="handleCapture(this)">
+  <input type="file" id="camF" accept="image/*" style="display:none" onchange="handleCapture(this)">
+  <div class="nav-row">
+    <button class="nb-btn" ${S.currentIdx===0?"disabled style='opacity:.3'":""} onclick="navShoot(-1)">← 上一項</button>
+    <button class="nb-btn" onclick="S.screen='select';render()" style="background:#fdf2f2;color:var(--red);border-color:#f5c6c6">📋 改選項目</button>
+    <button class="nb-btn" ${S.currentIdx>=total-1?"disabled style='opacity:.3'":""} onclick="navShoot(1)">下一項 →</button>
+  </div>`;
+  if(doneCount>0)h+=`<button class="mbtn dark" style="margin-top:8px;background:var(--dark)" onclick="S.screen='review';render()">檢視全部照片 →</button>`;
+  el.innerHTML=h;
+}
+
+// roundRect polyfill
+if(!CanvasRenderingContext2D.prototype.roundRect){
+  CanvasRenderingContext2D.prototype.roundRect=function(x,y,w,h,r){
+    r=Math.min(r,w/2,h/2);this.beginPath();this.moveTo(x+r,y);
+    this.arcTo(x+w,y,x+w,y+h,r);this.arcTo(x+w,y+h,x,y+h,r);
+    this.arcTo(x,y+h,x,y,r);this.arcTo(x,y,x+w,y,r);this.closePath();return this;
+  };
+}
+async function addWM(file,ds){
+  return new Promise(res=>{
+    const img=new Image(),tmp=URL.createObjectURL(file);
+    img.onload=()=>{
+      const c=document.createElement("canvas");c.width=img.naturalWidth;c.height=img.naturalHeight;
+      const ctx=c.getContext("2d");ctx.drawImage(img,0,0);URL.revokeObjectURL(tmp);
+      const le=Math.max(img.naturalWidth,img.naturalHeight);
+      const fs=Math.max(Math.round(le*0.028),18);
+      ctx.font=`bold ${fs}px 'Courier New',Courier,monospace`;ctx.textBaseline="bottom";
+      const tw=ctx.measureText(ds).width,mg=Math.round(le*0.012);
+      const tx=img.naturalWidth-tw-mg,ty=img.naturalHeight-mg;
+      ctx.save();ctx.lineWidth=Math.max(Math.round(fs*0.18),2);ctx.lineJoin="round";
+      ctx.strokeStyle="rgba(0,0,0,0.95)";ctx.strokeText(ds,tx,ty);
+      ctx.fillStyle="#FFFFFF";ctx.fillText(ds,tx,ty);ctx.restore();
+      c.toBlob(blob=>res({url:URL.createObjectURL(blob),blob}),"image/jpeg",0.95);
+    };
+    img.onerror=()=>res(null);img.src=tmp;
+  });
+}
+async function handleCapture(input){
+  const file=input.files?.[0];if(!file)return;
+  const items=getSelected(),item=items[S.currentIdx];if(!item)return;
+  const locEl=document.getElementById("locIn");if(locEl)S.locations[item.id]=locEl.value;
+  S.processing=true;render();
+  const r=await addWM(file,S.inspDate);S.processing=false;
+  const idx=S.currentIdx,baseF=makeFname(item,idx);
+  const existing=S.photos[item.id]||[];
+  const fn=existing.length===0?baseF:`${baseF}_${existing.length+1}`;
+  S.photos[item.id]=[...existing,{url:r?r.url:URL.createObjectURL(file),blob:r?.blob,name:fn,folder:getFolder(item)}];
+  markDone(item.id);
+  if(existing.length===0&&S.currentIdx<items.length-1)S.currentIdx++;
+  input.value="";render();
+}
+function removePic(id,pi){
+  const arr=S.photos[id]||[];arr.splice(pi,1);
+  if(arr.length)S.photos[id]=arr;else delete S.photos[id];render();
+}
+function navShoot(dir){
+  const locEl=document.getElementById("locIn"),items=getSelected(),item=items[S.currentIdx];
+  if(locEl&&item)S.locations[item.id]=locEl.value;
+  const n=S.currentIdx+dir;if(n>=0&&n<items.length){S.currentIdx=n;render();}
+}
+
+// ── 分享 Modal ────────────────────────────
+function openShareModal(id,pi=0){
+  const pics=S.photos[id]||[];const p=pics[pi]||pics[0];if(!p)return;
+  document.getElementById("shareModal")?.remove();
+  const m=document.createElement("div");m.id="shareModal";m.className="share-modal";
+  const canShare=navigator.share&&navigator.canShare&&p.blob;
+  m.innerHTML=`
+    <div style="color:#fff;font-size:13px;font-weight:700;margin-bottom:10px;text-align:center">${p.name}.jpg</div>
+    <img src="${p.url}" style="max-width:100%;max-height:52vh;border-radius:10px;object-fit:contain;box-shadow:0 4px 24px rgba(0,0,0,0.5)">
+    <div style="background:rgba(255,255,255,0.12);border-radius:8px;padding:8px 14px;margin:10px 0;text-align:center;color:#fff;font-size:12px;line-height:1.9">
+      📱 手機：長按圖片 → 儲存至相簿<br>💻 電腦：右鍵圖片 → 另存圖片為…
+    </div>
+    <div class="share-btns">
+      ${canShare?`<button class="sb" style="background:#25D366;font-size:13px;padding:9px 18px" onclick="nativeShare('${id}',${pi})">📤 分享 / LINE</button>`:""}
+      <button class="sb" style="background:#555;font-size:13px;padding:9px 18px" onclick="document.getElementById('shareModal').remove()">✕ 關閉</button>
+    </div>`;
+  m.addEventListener("click",e=>{if(e.target===m)m.remove();});
+  document.body.appendChild(m);
+}
+async function nativeShare(id,pi){
+  const p=(S.photos[id]||[])[pi];if(!p||!p.blob)return;
+  try{const f=new File([p.blob],p.name+".jpg",{type:"image/jpeg"});
+    if(navigator.canShare({files:[f]})){await navigator.share({files:[f],title:p.name});return;}
+  }catch(e){if(e.name==="AbortError")return;}
+  alert("此裝置不支援直接分享，請長按圖片儲存");
+}
+
+// ── Review ───────────────────────────────
+function renderReview(el){
+  const items=getSelected();
+  const doneItems=items.filter(i=>hasPics(i.id));
+  const totalPics=doneItems.reduce((s,i)=>s+(S.photos[i.id]||[]).length,0);
+  const missing=items.filter(i=>!hasPics(i.id));
+  const folders=[...new Set(doneItems.map(i=>getFolder(i)))];
+  let h=`<div class="header">
+    <div class="badge">台北市（非新建案）▸ 檢視確認</div>
+    <h1>${S.projectName}</h1>
+    <p class="sub">${S.projectAddress}</p>
+    <p class="sub">檢查日期：<strong style="font-family:'Courier New',monospace;color:#7d5a00">${S.inspDate}</strong></p>
+    <p class="sub">${doneItems.length}/${items.length} 項已拍 ・ 共 ${totalPics} 張</p>
+  </div>`;
+  if(folders.length){
+    h+=`<div class="dl-info">📦 資料夾（共 ${folders.length} 個）：<strong>${folders.slice(0,5).join("　/　")}${folders.length>5?"…":""}</strong><br>
+    <span style="color:#888;font-size:10px">⚠ 台北市最終輸出：將照片依序黏貼於制式規格紙張</span></div>`;
+  }
+  items.forEach((item,idx)=>{
+    const pics=S.photos[item.id]||[];const cnt=pics.length;
+    h+=`<div class="card rv-item">
+      <div class="dot ${cnt>0?"dot-ok":"dot-miss"}" style="font-size:${cnt>1?9:11}px">${cnt>1?cnt:cnt===1?"✓":"!"}</div>
+      <div style="display:flex;gap:3px;flex-shrink:0">
+        ${pics.slice(0,2).map((p,pi)=>`<img src="${p.url}" class="rv-th" onclick="openShareModal('${item.id}',${pi})">`).join("")}
+        ${cnt>2?`<div style="width:34px;height:40px;background:#e0e0d8;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#666">+${cnt-2}</div>`:""}
+      </div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:12px;font-weight:600">${String(idx+1).padStart(2,"0")}. ${item.name}</div>
+        <div style="font-size:10px;color:#999">${item.category}${item.sub?" ▸ "+item.sub:""}</div>
+        ${cnt>0?`<div style="font-size:10px;color:#1a472a">📁 ${getFolder(item)} ／ ${cnt}張</div>`:""}
+      </div>
+      ${cnt>0?`<button class="sb" style="background:#1a472a;flex-shrink:0;font-size:11px;padding:5px 9px" onclick="openShareModal('${item.id}',0)">💾</button>`:""}
+    </div>`;
+  });
+  if(missing.length){
+    h+=`<div class="card warn"><div class="warn-t">⚠ 尚有 ${missing.length} 項未拍攝</div>`;
+    missing.forEach(m=>{h+=`<div class="warn-i">• ${m.name}</div>`;});
+    h+=`<button class="sb" style="background:#c0392b;margin-top:8px" onclick="goToMissing()">繼續拍攝未完成項目</button></div>`;
+  }
+  h+=`<div class="bstack">
+    ${S.downloading?`<div class="proc">⏳ 處理中，請稍候…</div>`:`
+    <button class="mbtn" style="background:#c0392b;font-size:15px" onclick="generatePasteTable()">📋 產生照片黏貼表（可列印）</button>
+    <button class="mbtn green" onclick="saveToDirectory()">📂 選擇資料夾下載（各設備分資料夾）</button>
+    <button class="mbtn" onclick="downloadZip()">📦 ZIP 下載（各設備資料夾打包）</button>
+    <button class="mbtn dark" onclick="exportJSON()">📄 匯出清單 JSON</button>`}
+    <div class="nav-row">
+      <button class="nb-btn" onclick="S.screen='shoot';render()">← 返回拍照</button>
+      <button class="nb-btn" onclick="S.screen='select';render()" style="background:#fdf2f2;color:var(--red);border-color:#f5c6c6">📋 修改選項</button>
+    </div>
+    <div class="nav-row">
+      <button class="nb-btn" onclick="S.screen='project';render()">✏️ 修改案件</button>
+      <button class="nb-btn" style="color:#c0392b;border-color:#e8b0b0"
+        onclick="if(confirm('清除所有已拍照片，確定嗎？')){S.selectedIds=new Set();S.photos={};S.locations={};S.screen='project';render()}">🔄 重新開始</button>
+    </div>
+  </div>`;
+  el.innerHTML=h;
+}
+function goToMissing(){const items=getSelected(),idx=items.findIndex(i=>!hasPics(i.id));if(idx>=0){S.currentIdx=idx;S.screen="shoot";render();}}
+
+// ── 產生黏貼表 ───────────────────────────
+function generatePasteTable(){
+  const items=getSelected();
+  const rows=[];
+  items.forEach((item)=>{
+    const pics=S.photos[item.id]||[];
+    if(pics.length>0){
+      pics.forEach((p,pi)=>{
+        rows.push({label:item.name+(pics.length>1?`（第${pi+1}張）`:""),url:p.url});
+      });
+    }else{
+      rows.push({label:item.name,url:null});
+    }
+  });
+
+  // A4 橫向，每頁 4 張（2列×2欄）
+  // 結構：[說明左｜照片左｜照片右｜說明右]
+  const perPage=4;
+  const pages=[];
+  for(let i=0;i<rows.length;i+=perPage)pages.push(rows.slice(i,i+perPage));
+  const totalPages=pages.length;
+  const footerCase=`${S.projectName} ${S.inspDate.replace(/\./g,"")}`;
+
+  let html=`<!DOCTYPE html><html lang="zh-TW"><head>
+  <meta charset="UTF-8">
+  <title>照片黏貼表 — ${S.projectName}</title>
+  <style>
+    @page{size:A4 landscape;margin:8mm 10mm;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Noto Sans TC','Microsoft JhengHei',sans-serif;background:#fff;color:#000;}
+
+    .page{width:100%;display:flex;flex-direction:column;height:195mm;page-break-after:always;}
+    .page:last-child{page-break-after:avoid;}
+
+    /* 頁首 */
+    .ph{text-align:center;font-size:18px;font-weight:900;letter-spacing:3px;
+        padding-bottom:5px;margin-bottom:5px;border-bottom:1.5px solid #000;}
+
+    /* 主體表格 */
+    .grid{flex:1;display:grid;
+          grid-template-columns:32px 1fr 1fr 32px;
+          grid-template-rows:1fr 1fr;
+          border:1.5px solid #000;
+          border-collapse:collapse;
+          min-height:0;}
+
+    /* 行：每行佔用 col1~col4，但我們用子格 */
+    .row{display:contents;}
+
+    /* 說明欄（直排文字）*/
+    .lbl{border:1px solid #000;
+         writing-mode:vertical-lr;
+         text-orientation:mixed;
+         font-size:12px;font-weight:700;
+         display:flex;align-items:center;justify-content:flex-start;
+         padding:6px 4px;
+         line-height:1.6;
+         word-break:break-all;
+         background:#fff;}
+
+    /* 照片欄 */
+    .photo{border:1px solid #000;
+           display:flex;align-items:center;justify-content:center;
+           overflow:hidden;padding:2px;background:#fff;}
+    .photo img{max-width:100%;max-height:100%;object-fit:contain;}
+
+    /* 空白格（對角線） */
+    .empty-cell{border:1px solid #000;position:relative;background:#fff;}
+    .empty-cell::before,.empty-cell::after{
+      content:"";position:absolute;
+      top:0;left:0;right:0;bottom:0;}
+    .empty-cell::before{
+      background:linear-gradient(to bottom right,transparent calc(50% - 0.5px),#999 calc(50% - 0.5px),#999 calc(50% + 0.5px),transparent calc(50% + 0.5px));}
+
+    /* 頁尾 */
+    .pf{display:flex;justify-content:space-between;
+        font-size:10px;color:#333;
+        padding-top:4px;margin-top:4px;
+        border-top:1px solid #ccc;}
+
+    @media print{
+      *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
+      .no-print{display:none!important;}
+    }
+  </style>
+</head><body>`;
+
+  pages.forEach((pageRows,pi)=>{
+    // 4個格子：[0]=左上 [1]=右上 [2]=左下 [3]=右下
+    const c=(i)=>pageRows[i]||null;
+
+    const photoCell=(r)=>{
+      if(!r)return`<div class="empty-cell"></div>`;
+      if(r.url)return`<div class="photo"><img src="${r.url}"></div>`;
+      return`<div class="empty-cell"></div>`;
+    };
+    const lblCell=(r,extraStyle="")=>{
+      if(!r)return`<div class="lbl" style="${extraStyle}">&nbsp;</div>`;
+      return`<div class="lbl" style="${extraStyle}">${r.label}</div>`;
+    };
+
+    html+=`<div class="page">
+    <div class="ph">臺北市政府消防局　消防安全設備照片黏貼紙</div>
+    <div class="grid">
+      ${/* 上列：說明左 | 照片左 | 照片右 | 說明右 */""}
+      ${lblCell(c(0))}
+      ${photoCell(c(0))}
+      ${photoCell(c(1))}
+      ${lblCell(c(1))}
+      ${/* 下列 */""}
+      ${lblCell(c(2))}
+      ${photoCell(c(2))}
+      ${photoCell(c(3))}
+      ${lblCell(c(3))}
+    </div>
+    <div class="pf">
+      <span>${pi+1}/${totalPages}</span>
+      <span>${footerCase}</span>
+    </div>
+    </div>`;
+  });
+
+  html+=`<div class="no-print" style="position:fixed;bottom:20px;right:20px;z-index:999">
+    <button onclick="window.print()"
+      style="padding:12px 28px;background:#c0392b;color:#fff;border:none;border-radius:8px;
+             font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,0.25)">
+      🖨️ 列印 / 儲存 PDF
+    </button>
+  </div></body></html>`;
+
+  const w=window.open("","_blank");
+  w.document.write(html);
+  w.document.close();
+}
+
+async function saveToDirectory(){
+  const items=getSelected(),done=items.filter(i=>hasPics(i.id));
+  if(!done.length){alert("尚無已拍攝的照片");return;}
+  if(!window.showDirectoryPicker){alert("此瀏覽器不支援選擇資料夾\n改用 ZIP 下載");return downloadZip();}
+  let dir;
+  try{dir=await window.showDirectoryPicker({mode:"readwrite"});}
+  catch(e){if(e.name==="AbortError")return;return downloadZip();}
+  S.downloading=true;render();
+  try{
+    let cnt=0;
+    for(const item of done){
+      for(const p of S.photos[item.id]||[]){
+        let blob=p.blob;
+        if(!blob){try{const r=await fetch(p.url);blob=await r.blob();}catch(e){continue;}}
+        const fh=await dir.getDirectoryHandle(p.folder||getFolder(item),{create:true});
+        const wh=await fh.getFileHandle(p.name+".jpg",{create:true});
+        const w=await wh.createWritable();await w.write(blob);await w.close();cnt++;
+      }
+    }
+    alert(`✅ 已儲存 ${cnt} 張，各設備資料夾已建立`);
+  }catch(e){alert("儲存失敗："+e.message);downloadZip();}
+  S.downloading=false;render();
+}
+
+async function downloadZip(){
+  const items=getSelected(),done=items.filter(i=>hasPics(i.id));
+  if(!done.length){alert("尚無已拍攝的照片");return;}
+  S.downloading=true;render();
+  try{
+    const zip=new JSZip();
+    for(const item of done){
+      for(const p of S.photos[item.id]||[]){
+        let blob=p.blob;
+        if(!blob){try{const r=await fetch(p.url);blob=await r.blob();}catch(e){continue;}}
+        zip.folder(p.folder||getFolder(item)).file(p.name+".jpg",blob);
+      }
+    }
+    const content=await zip.generateAsync({type:"blob",compression:"DEFLATE",compressionOptions:{level:6}});
+    const url=URL.createObjectURL(content);
+    const a=document.createElement("a");a.href=url;
+    a.download=`消防序拍_台北市_${S.projectName}_${S.inspDate}.zip`;
+    document.body.appendChild(a);a.click();
+    setTimeout(()=>{document.body.removeChild(a);URL.revokeObjectURL(url);},500);
+  }catch(e){alert("ZIP 失敗："+e.message);}
+  S.downloading=false;render();
+}
+
+function exportJSON(){
+  const items=getSelected();
+  const obj={appName:"消防序拍 V1.0",city:"台北市（非新建案）",operator:S.currentUser,
+    project:{name:S.projectName,address:S.projectAddress,inspDate:S.inspDate,
+      supervisor:S.supervisorName,tester:S.testerName,builder:S.builderName},
+    photos:items.map((item,idx)=>{
+      const pics=S.photos[item.id]||[];const baseF=makeFname(item,idx);
+      return{seq:idx+1,folder:getFolder(item),label:item.name,
+        files:pics.length?pics.map(p=>p.name+".jpg"):[baseF+".jpg"],
+        location:S.locations[item.id]||"",status:pics.length?"captured":"missing",count:pics.length};
+    }),
+    summary:{total:items.length,captured:items.filter(i=>hasPics(i.id)).length,
+      missing:items.filter(i=>!hasPics(i.id)).length,
+      totalPhotos:items.reduce((s,i)=>s+(S.photos[i.id]||[]).length,0)}};
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(new Blob([JSON.stringify(obj,null,2)],{type:"application/json"}));
+  a.download=`台北市照片清單_${S.projectName}.json`;
+  document.body.appendChild(a);a.click();setTimeout(()=>document.body.removeChild(a),300);
+}
+
+applyUrlParams();
+render();
+</script>
+</body>
+</html>
