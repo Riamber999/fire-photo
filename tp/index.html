@@ -94,7 +94,7 @@ input.dw{border-color:var(--gold);background:#fffef5;font-weight:700;color:#7d5a
 <div id="app" class="wrap"></div>
 <script>
 // ════════════════════════════════════════
-// 🔑 密碼（台北市專版）
+// 🔑 密碼（台北市版）請與新北市版保持一致
 // ════════════════════════════════════════
 const USERS={
   "fire-admin": "管理員",
@@ -102,8 +102,6 @@ const USERS={
   "qin-2026":   "秦○○ 消防設備士",
   "chen-2026":  "陳○○ 消防設備士",
 };
-const CITY_LABEL="台北市（非新建案）";
-const CITY_CODE="TP";
 
 // ════════════════════════════════════════
 // 台北市清單（非新建案 104.1.15）
@@ -243,7 +241,7 @@ const CHECKLIST=[
 ];
 
 // ════════════════════════════════════════
-// 工具
+// 工具函式
 // ════════════════════════════════════════
 function expandOC(items,prefix){
   const out=[];
@@ -280,7 +278,7 @@ function hasPics(id){return(S.photos[id]||[]).length>0;}
 function isPrev(id){return!!(S.photoStatus[id]?.done&&!hasPics(id));}
 
 // ════════════════════════════════════════
-// localStorage
+// localStorage（台北市專用 key）
 // ════════════════════════════════════════
 function tryLoadHistory(){
   try{const r=localStorage.getItem("fireseq-tp-projects");S.projectHistory=r?JSON.parse(r):null;}
@@ -303,7 +301,7 @@ function loadPS(){try{const r=localStorage.getItem(psKey());S.photoStatus=r?JSON
 function markDone(id){try{S.photoStatus[id]={done:true};localStorage.setItem(psKey(),JSON.stringify(S.photoStatus));}catch(e){}}
 
 // ════════════════════════════════════════
-// URL 參數
+// URL 參數（管理員專屬連結）
 // ════════════════════════════════════════
 function applyUrlParams(){
   const p=new URLSearchParams(location.search);
@@ -333,7 +331,7 @@ function render(){
 // ── Lock ─────────────────────────────────
 function renderLock(el){
   el.innerHTML=`<div class="lock-sc">
-    <img src="logo.png" alt="消防序拍"
+    <img src="../logo.png" alt="消防序拍"
       style="width:200px;max-width:80vw;margin-bottom:8px;border-radius:12px"
       onerror="this.style.display='none';document.getElementById('lf').style.display='block'">
     <div id="lf" style="display:none;font-size:56px;margin-bottom:8px">🚒</div>
@@ -344,7 +342,7 @@ function renderLock(el){
       style="width:220px;text-align:center;font-size:16px;padding:10px;letter-spacing:3px;margin-bottom:12px;border:1px solid #ddd;border-radius:8px">
     <button class="mbtn" style="width:220px" onclick="tryLogin()">登入</button>
     ${S.pwError?'<div style="color:var(--red);font-size:12px;margin-top:8px">密碼錯誤，請重試</div>':''}
-    <div style="position:fixed;bottom:0;left:0;right:0;padding:10px;text-align:center;font-size:10px;color:#aaa;background:var(--bg);border-top:1px solid var(--border);line-height:1.8">
+    <div style="position:fixed;bottom:0;left:0;right:0;padding:10px;text-align:center;font-size:10px;color:#333;background:var(--bg);border-top:1px solid var(--border);line-height:1.8">
       © 2026 FireLinkX 和勤安居顧問有限公司 All rights reserved.
     </div>
   </div>`;
@@ -468,7 +466,6 @@ function renderShoot(el){
   let h=`
   <div class="prog-bar"><div class="prog-fill" style="width:${(doneCount/total)*100}%"></div></div>
   <div style="text-align:center;font-size:12px;color:#888;margin-bottom:8px">${doneCount}/${total} 項已拍 ・ 第 ${S.currentIdx+1}/${total} 項</div>
-
   <div class="card wb">
     <div class="wb-tag">📋 白板填寫提示</div>
     <table class="wb-t">
@@ -484,13 +481,11 @@ function renderShoot(el){
       <tr><td class="wbl">檢查現況</td><td class="wbv">☑ 竣工測試</td></tr>
     </table>
   </div>
-
   <div class="ci">
     <div class="cc">${item.category}${item.sub?" ▸ "+item.sub:""} ／ 📁 ${getFolder(item)}</div>
     <div class="cn">${item.name}</div>
     <div class="cf">${baseF}${pics.length>1?` (共${pics.length}張)`:""}.jpg</div>
   </div>
-
   <div class="rem">
     <div class="rem-t">📸 拍照前確認</div>
     <div class="rem-r"><div class="rem-c" style="background:#2980b9">項</div><div class="rem-tx">測試項目：<strong style="color:#1a4a7c">${item.name}</strong></div></div>
@@ -501,10 +496,9 @@ function renderShoot(el){
   </div>
   <div class="wm-i">🖼️ 拍照後自動在右下角加上去背日期浮水印 <strong>${S.inspDate}</strong></div>`;
 
-  // 已拍縮圖
   if(pics.length>0){
     h+=`<div class="card" style="padding:10px">
-      <div style="font-size:11px;font-weight:700;color:#27ae60;margin-bottom:8px">✓ 本次已拍 ${pics.length} 張</div>
+      <div style="font-size:11px;font-weight:700;color:#27ae60;margin-bottom:8px">✓ 本次已拍 ${pics.length} 張 — 點縮圖可儲存</div>
       <div class="photo-strip">
         ${pics.map((p,pi)=>`
         <div class="photo-thumb">
@@ -543,7 +537,7 @@ function renderShoot(el){
     <button class="nb-btn" onclick="S.screen='select';render()" style="background:#fdf2f2;color:var(--red);border-color:#f5c6c6">📋 改選項目</button>
     <button class="nb-btn" ${S.currentIdx>=total-1?"disabled style='opacity:.3'":""} onclick="navShoot(1)">下一項 →</button>
   </div>`;
-  if(doneCount>0)h+=`<button class="mbtn dark" style="margin-top:8px;background:var(--dark)" onclick="S.screen='review';render()">檢視全部照片 →</button>`;
+  if(doneCount>0)h+=`<button class="mbtn dark" style="margin-top:8px" onclick="S.screen='review';render()">檢視全部照片 →</button>`;
   el.innerHTML=h;
 }
 
@@ -625,6 +619,74 @@ async function nativeShare(id,pi){
   alert("此裝置不支援直接分享，請長按圖片儲存");
 }
 
+// ── 產生黏貼表 ───────────────────────────
+function generatePasteTable(){
+  const items=getSelected();
+  const rows=[];
+  items.forEach(item=>{
+    const pics=S.photos[item.id]||[];
+    if(pics.length>0){
+      pics.forEach((p,pi)=>{
+        rows.push({label:item.name+(pics.length>1?`（第${pi+1}張）`:""),url:p.url});
+      });
+    }else{
+      rows.push({label:item.name,url:null});
+    }
+  });
+  const perPage=4;
+  const pages=[];
+  for(let i=0;i<rows.length;i+=perPage)pages.push(rows.slice(i,i+perPage));
+  const totalPages=pages.length;
+  const footerCase=`${S.projectName} ${S.inspDate.replace(/\./g,"")}`;
+
+  let html=`<!DOCTYPE html><html lang="zh-TW"><head>
+  <meta charset="UTF-8">
+  <title>照片黏貼表 — ${S.projectName}</title>
+  <style>
+    @page{size:A4 landscape;margin:8mm 10mm;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Noto Sans TC','Microsoft JhengHei',sans-serif;background:#fff;color:#000;}
+    .page{width:100%;display:flex;flex-direction:column;height:195mm;page-break-after:always;}
+    .page:last-child{page-break-after:avoid;}
+    .ph{text-align:center;font-size:18px;font-weight:900;letter-spacing:3px;padding-bottom:5px;margin-bottom:5px;border-bottom:1.5px solid #000;}
+    .grid{flex:1;display:grid;grid-template-columns:32px 1fr 1fr 32px;grid-template-rows:1fr 1fr;border:1.5px solid #000;min-height:0;}
+    .lbl{border:1px solid #000;writing-mode:vertical-lr;text-orientation:mixed;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:flex-start;padding:6px 4px;line-height:1.6;word-break:break-all;background:#fff;}
+    .photo{border:1px solid #000;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:2px;background:#fff;}
+    .photo img{max-width:100%;max-height:100%;object-fit:contain;}
+    .empty-cell{border:1px solid #000;position:relative;background:#fff;}
+    .empty-cell::before{content:"";position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(to bottom right,transparent calc(50% - 0.5px),#999 calc(50% - 0.5px),#999 calc(50% + 0.5px),transparent calc(50% + 0.5px));}
+    .pf{display:flex;justify-content:space-between;font-size:10px;color:#333;padding-top:4px;margin-top:4px;border-top:1px solid #ccc;}
+    @media print{*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}.no-print{display:none!important;}}
+  </style></head><body>`;
+
+  pages.forEach((pageRows,pi)=>{
+    const c=i=>pageRows[i]||null;
+    const photoCell=r=>{
+      if(!r)return`<div class="empty-cell"></div>`;
+      if(r.url)return`<div class="photo"><img src="${r.url}"></div>`;
+      return`<div class="empty-cell"></div>`;
+    };
+    const lblCell=r=>{
+      if(!r)return`<div class="lbl">&nbsp;</div>`;
+      return`<div class="lbl">${r.label}</div>`;
+    };
+    html+=`<div class="page">
+    <div class="ph">臺北市政府消防局　消防安全設備照片黏貼紙</div>
+    <div class="grid">
+      ${lblCell(c(0))}${photoCell(c(0))}${photoCell(c(1))}${lblCell(c(1))}
+      ${lblCell(c(2))}${photoCell(c(2))}${photoCell(c(3))}${lblCell(c(3))}
+    </div>
+    <div class="pf"><span>${pi+1}/${totalPages}</span><span>${footerCase}</span></div>
+    </div>`;
+  });
+
+  html+=`<div class="no-print" style="position:fixed;bottom:20px;right:20px;z-index:999">
+    <button onclick="window.print()" style="padding:12px 28px;background:#c0392b;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,0.25)">🖨️ 列印 / 儲存 PDF</button>
+  </div></body></html>`;
+
+  const w=window.open("","_blank");w.document.write(html);w.document.close();
+}
+
 // ── Review ───────────────────────────────
 function renderReview(el){
   const items=getSelected();
@@ -641,7 +703,7 @@ function renderReview(el){
   </div>`;
   if(folders.length){
     h+=`<div class="dl-info">📦 資料夾（共 ${folders.length} 個）：<strong>${folders.slice(0,5).join("　/　")}${folders.length>5?"…":""}</strong><br>
-    <span style="color:#888;font-size:10px">⚠ 台北市最終輸出：將照片依序黏貼於制式規格紙張</span></div>`;
+    <span style="color:#888;font-size:10px">台北市最終輸出：產生照片黏貼表，列印後黏貼於制式規格紙張</span></div>`;
   }
   items.forEach((item,idx)=>{
     const pics=S.photos[item.id]||[];const cnt=pics.length;
@@ -667,8 +729,8 @@ function renderReview(el){
   h+=`<div class="bstack">
     ${S.downloading?`<div class="proc">⏳ 處理中，請稍候…</div>`:`
     <button class="mbtn" style="background:#c0392b;font-size:15px" onclick="generatePasteTable()">📋 產生照片黏貼表（可列印）</button>
-    <button class="mbtn green" onclick="saveToDirectory()">📂 選擇資料夾下載（各設備分資料夾）</button>
-    <button class="mbtn" onclick="downloadZip()">📦 ZIP 下載（各設備資料夾打包）</button>
+    <button class="mbtn green" onclick="saveToDirectory()">📂 選擇資料夾下載</button>
+    <button class="mbtn" onclick="downloadZip()">📦 ZIP 下載</button>
     <button class="mbtn dark" onclick="exportJSON()">📄 匯出清單 JSON</button>`}
     <div class="nav-row">
       <button class="nb-btn" onclick="S.screen='shoot';render()">← 返回拍照</button>
@@ -683,141 +745,6 @@ function renderReview(el){
   el.innerHTML=h;
 }
 function goToMissing(){const items=getSelected(),idx=items.findIndex(i=>!hasPics(i.id));if(idx>=0){S.currentIdx=idx;S.screen="shoot";render();}}
-
-// ── 產生黏貼表 ───────────────────────────
-function generatePasteTable(){
-  const items=getSelected();
-  const rows=[];
-  items.forEach((item)=>{
-    const pics=S.photos[item.id]||[];
-    if(pics.length>0){
-      pics.forEach((p,pi)=>{
-        rows.push({label:item.name+(pics.length>1?`（第${pi+1}張）`:""),url:p.url});
-      });
-    }else{
-      rows.push({label:item.name,url:null});
-    }
-  });
-
-  // A4 橫向，每頁 4 張（2列×2欄）
-  // 結構：[說明左｜照片左｜照片右｜說明右]
-  const perPage=4;
-  const pages=[];
-  for(let i=0;i<rows.length;i+=perPage)pages.push(rows.slice(i,i+perPage));
-  const totalPages=pages.length;
-  const footerCase=`${S.projectName} ${S.inspDate.replace(/\./g,"")}`;
-
-  let html=`<!DOCTYPE html><html lang="zh-TW"><head>
-  <meta charset="UTF-8">
-  <title>照片黏貼表 — ${S.projectName}</title>
-  <style>
-    @page{size:A4 landscape;margin:8mm 10mm;}
-    *{box-sizing:border-box;margin:0;padding:0;}
-    body{font-family:'Noto Sans TC','Microsoft JhengHei',sans-serif;background:#fff;color:#000;}
-
-    .page{width:100%;display:flex;flex-direction:column;height:195mm;page-break-after:always;}
-    .page:last-child{page-break-after:avoid;}
-
-    /* 頁首 */
-    .ph{text-align:center;font-size:18px;font-weight:900;letter-spacing:3px;
-        padding-bottom:5px;margin-bottom:5px;border-bottom:1.5px solid #000;}
-
-    /* 主體表格 */
-    .grid{flex:1;display:grid;
-          grid-template-columns:32px 1fr 1fr 32px;
-          grid-template-rows:1fr 1fr;
-          border:1.5px solid #000;
-          border-collapse:collapse;
-          min-height:0;}
-
-    /* 行：每行佔用 col1~col4，但我們用子格 */
-    .row{display:contents;}
-
-    /* 說明欄（直排文字）*/
-    .lbl{border:1px solid #000;
-         writing-mode:vertical-lr;
-         text-orientation:mixed;
-         font-size:12px;font-weight:700;
-         display:flex;align-items:center;justify-content:flex-start;
-         padding:6px 4px;
-         line-height:1.6;
-         word-break:break-all;
-         background:#fff;}
-
-    /* 照片欄 */
-    .photo{border:1px solid #000;
-           display:flex;align-items:center;justify-content:center;
-           overflow:hidden;padding:2px;background:#fff;}
-    .photo img{max-width:100%;max-height:100%;object-fit:contain;}
-
-    /* 空白格（對角線） */
-    .empty-cell{border:1px solid #000;position:relative;background:#fff;}
-    .empty-cell::before,.empty-cell::after{
-      content:"";position:absolute;
-      top:0;left:0;right:0;bottom:0;}
-    .empty-cell::before{
-      background:linear-gradient(to bottom right,transparent calc(50% - 0.5px),#999 calc(50% - 0.5px),#999 calc(50% + 0.5px),transparent calc(50% + 0.5px));}
-
-    /* 頁尾 */
-    .pf{display:flex;justify-content:space-between;
-        font-size:10px;color:#333;
-        padding-top:4px;margin-top:4px;
-        border-top:1px solid #ccc;}
-
-    @media print{
-      *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
-      .no-print{display:none!important;}
-    }
-  </style>
-</head><body>`;
-
-  pages.forEach((pageRows,pi)=>{
-    // 4個格子：[0]=左上 [1]=右上 [2]=左下 [3]=右下
-    const c=(i)=>pageRows[i]||null;
-
-    const photoCell=(r)=>{
-      if(!r)return`<div class="empty-cell"></div>`;
-      if(r.url)return`<div class="photo"><img src="${r.url}"></div>`;
-      return`<div class="empty-cell"></div>`;
-    };
-    const lblCell=(r,extraStyle="")=>{
-      if(!r)return`<div class="lbl" style="${extraStyle}">&nbsp;</div>`;
-      return`<div class="lbl" style="${extraStyle}">${r.label}</div>`;
-    };
-
-    html+=`<div class="page">
-    <div class="ph">臺北市政府消防局　消防安全設備照片黏貼紙</div>
-    <div class="grid">
-      ${/* 上列：說明左 | 照片左 | 照片右 | 說明右 */""}
-      ${lblCell(c(0))}
-      ${photoCell(c(0))}
-      ${photoCell(c(1))}
-      ${lblCell(c(1))}
-      ${/* 下列 */""}
-      ${lblCell(c(2))}
-      ${photoCell(c(2))}
-      ${photoCell(c(3))}
-      ${lblCell(c(3))}
-    </div>
-    <div class="pf">
-      <span>${pi+1}/${totalPages}</span>
-      <span>${footerCase}</span>
-    </div>
-    </div>`;
-  });
-
-  html+=`<div class="no-print" style="position:fixed;bottom:20px;right:20px;z-index:999">
-    <button onclick="window.print()"
-      style="padding:12px 28px;background:#c0392b;color:#fff;border:none;border-radius:8px;
-             font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,0.25)">
-      🖨️ 列印 / 儲存 PDF
-    </button>
-  </div></body></html>`;
-
-  const w=window.open("","_blank");
-  w.document.write(html);
-  w.document.close();
-}
 
 async function saveToDirectory(){
   const items=getSelected(),done=items.filter(i=>hasPics(i.id));
