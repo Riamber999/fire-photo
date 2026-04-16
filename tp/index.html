@@ -1018,8 +1018,10 @@ async function generatePasteTableWord(){
     const MARGIN_H=709; // 左右 1.25cm ≈ 1.25 × 567 = 709 twips
 
     // 內容區尺寸
+    // 頁首和頁尾現在是獨立的 Header/Footer 物件，位於邊界內
+    // 所以內文區 = 頁面總高 - 上下邊界 - 頁首頁尾區域（約 1400 twips = 2.5cm）
     const contentW=PAGE_W - MARGIN_H*2;
-    const contentH=PAGE_H - MARGIN_V*2 - 900; // 扣除標題與頁尾空間
+    const contentH=PAGE_H - MARGIN_V*2 - 1400;
 
     // 標籤欄寬（兩邊直式文字）
     const labelColW=550;
@@ -1109,18 +1111,19 @@ async function generatePasteTableWord(){
         ]
       });
 
-      // 頁首：標楷體 22pt（docx size 以 half-point 為單位，22pt = 44）
-      const titlePara=new Paragraph({
-        alignment:AlignmentType.CENTER,
-        spacing:{after:200},
-        border:{bottom:{color:'000000',space:4,style:BorderStyle.SINGLE,size:12}},
-        children:[new TextRun({
-          text:'臺北市政府消防局消防安全設備照片黏貼紙',
-          bold:true,size:44,font:'標楷體'
+      // 頁首：標楷體 22pt（size:44 因 docx 單位為 half-point）
+      // ✅ 改成真正的 Header 物件，會顯示在每頁頂部
+      const header=new Header({
+        children:[new Paragraph({
+          alignment:AlignmentType.CENTER,
+          children:[new TextRun({
+            text:'臺北市政府消防局消防安全設備照片黏貼紙',
+            bold:true,size:44,font:'標楷體'
+          })]
         })]
       });
 
-      // 頁尾：標楷體 11pt（= size 22），格式「第 X 頁，共 Y 頁」置中
+      // 頁尾：標楷體 11pt（size:22）置中，「第 X 頁，共 Y 頁」
       const footer=new Footer({
         children:[new Paragraph({
           alignment:AlignmentType.CENTER,
@@ -1136,12 +1139,24 @@ async function generatePasteTableWord(){
       sections.push({
         properties:{
           page:{
-            size:{width:PAGE_W,height:PAGE_H,orientation:PageOrientation.LANDSCAPE},
-            margin:{top:MARGIN_V,right:MARGIN_H,bottom:MARGIN_V,left:MARGIN_H}
+            size:{
+              width:PAGE_W,
+              height:PAGE_H,
+              orientation:PageOrientation.LANDSCAPE
+            },
+            margin:{
+              top:MARGIN_V,
+              right:MARGIN_H,
+              bottom:MARGIN_V,
+              left:MARGIN_H,
+              header:284,  // 頁首距頁頂 0.5cm
+              footer:284   // 頁尾距頁底 0.5cm
+            }
           }
         },
+        headers:{default:header},
         footers:{default:footer},
-        children:[titlePara, table]
+        children:[table]  // ✅ 只放表格，不含頁首段落（頁首已在 headers 中）
       });
     }
 
